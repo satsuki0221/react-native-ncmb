@@ -1,11 +1,11 @@
 module.exports = {
   context: __dirname,
   entry: {
-    'application': './lib/ncmb.js',
+    application: './lib/ncmb.js',
   },
   output: {
     path: __dirname,
-    filename: 'index.js'
+    filename: 'index.js',
   },
   module: {
     loaders: [
@@ -13,11 +13,11 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query:{
-          presets: ['es2015'],
+        query: {
+          presets: ['flow', 'es2015'],
           plugins: ['transform-flow-strip-types'],
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 };
