@@ -8,7 +8,8 @@
   ],
   "globals": {
     "fetch": true,
-    "yield": true
+    "yield": true,
+    "window": true
   },
   "rules": {
     "new-cap": 0
