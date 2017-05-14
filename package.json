@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "build": "webpack",
     "flow": "flow check",
     "lint:js": "eslint lib || true",
     "fix:js": "eslint lib --fix || true"
