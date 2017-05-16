@@ -1,11 +1,11 @@
 module.exports = {
   context: __dirname,
   entry: {
-    application: './lib/ncmb.js',
+    application: './lib/web.js',
   },
   output: {
     path: __dirname,
-    filename: 'index.js',
+    filename: 'index.web.js',
   },
   module: {
     loaders: [
