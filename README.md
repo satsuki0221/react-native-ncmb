@@ -4,6 +4,10 @@ http://mb.cloud.nifty.com/doc/current/rest/common/format.html
 
 Use Nifty mobile backend 's REST API to correspond to React Native
 
+## install
+```
+yarn add react-native-ncmb
+```
 
 ## Current function
 - Member registration
