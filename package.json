@@ -4,6 +4,10 @@
   "main": "index.js",
   "description": "NCMB for React Native",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satsuki0221/react-native-ncmb"
+  },
   "scripts": {
     "build": "webpack",
     "flow": "flow check",
