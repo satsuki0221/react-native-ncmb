@@ -1,5 +1,8 @@
 {
+  "name": "react-native-ncmb",
   "version": "0.1",
+  "main": "index.js",
+  "description": "NCMB for React Native",
   "license": "MIT",
   "scripts": {
     "build": "webpack",
