@@ -83,17 +83,6 @@ var _signature2 = _interopRequireDefault(_signature);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var defaultSuccess = function defaultSuccess(json) {
-  console.log(json);
-  return json;
-};
-
-
-var defaultError = function defaultError(errorCode) {
-  console.log(errorCode);
-  return errorCode;
-};
-
 exports.default = function (ncmb, options) {
   var method = options.method,
       endpoint = options.endpoint,
@@ -142,11 +131,21 @@ exports.default = function (ncmb, options) {
   }).then(function (response) {
     return response.json();
   }).then(function (json) {
-    if (typeof beforeSuccess === 'function') beforeSuccess(json);
-    return success ? success(json) : defaultSuccess(json);
-  }).catch(function (errorCode) {
-    if (typeof beforeError === 'function') beforeError(errorCode);
-    return error ? error(errorCode) : defaultError(errorCode);
+    if (!json.error) {
+      if (typeof beforeSuccess === 'function') beforeSuccess(json);
+      if (typeof success === 'function') success(json);
+    } else {
+      if (typeof beforeError === 'function') beforeError(json);
+      if (typeof error === 'function') error(json);
+    }
+  }).catch(function (Error) {
+    var errorObj = {
+      code: null,
+      error: Error.message
+    };
+
+    if (typeof beforeError === 'function') beforeError(errorObj);
+    if (typeof error === 'function') error(errorObj);
   });
 };
 
@@ -413,9 +412,6 @@ exports.default = function (ncmb, options) {
 
 
   if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-
-  var sessionToken = ncmb.currentUser.sessionToken;
-  if (!sessionToken) throw new Error('sessionToken is undefind');
 
   (0, _fetch2.default)(ncmb, {
     method: 'GET',
