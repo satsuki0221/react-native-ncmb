@@ -10,10 +10,10 @@ yarn add react-native-ncmb
 ```
 
 ## Current function
-- Member registration
-- Member login
-- Acquire member information
-- Password reissue request
+- [User Registration](http://mb.cloud.nifty.com/doc/current/rest/user/userRegistration.html)
+- [user Login](http://mb.cloud.nifty.com/doc/current/rest/user/userLogin.html)
+- [User Get](http://mb.cloud.nifty.com/doc/current/rest/user/userGet.html)
+- [Password Registration](http://mb.cloud.nifty.com/doc/current/rest/user/passwordRegistration.html)
 
 ## Manage instances with Redux Reducer
 ```
