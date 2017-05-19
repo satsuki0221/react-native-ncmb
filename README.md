@@ -15,17 +15,3 @@ yarn add react-native-ncmb
 - [User Get](http://mb.cloud.nifty.com/doc/current/rest/user/userGet.html)
 - [Password Registration](http://mb.cloud.nifty.com/doc/current/rest/user/passwordRegistration.html)
 
-## Manage instances with Redux Reducer
-```
-import NCMB from 'react-native-ncmb';
-
-const ncmb = new NCMB({
-  applicationkey: 'abcdefghijklmnopqrstuvwxyz',
-  clientKey: 'abcdefghijklmnopqrstuvwxyz',
-});
-
-export default function () {
-  return ncmb;
-}
-
-```
