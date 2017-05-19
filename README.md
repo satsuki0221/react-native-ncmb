@@ -15,3 +15,14 @@ yarn add react-native-ncmb
 - [User Get](http://mb.cloud.nifty.com/doc/current/rest/user/userGet.html)
 - [Password Registration](http://mb.cloud.nifty.com/doc/current/rest/user/passwordRegistration.html)
 
+
+## Setting
+```
+import NCMB from 'react-native-ncmb';
+
+NCMB.set({
+  applicationkey: 'abcdefghijklmnopqrstuvwxyz0123456789',
+  clientKey: 'abcdefghijklmnopqrstuvwxyz0123456789',
+});
+
+```
