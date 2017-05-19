@@ -160,6 +160,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _login = __webpack_require__(2);
 
 var _login2 = _interopRequireDefault(_login);
@@ -176,53 +178,65 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var NCMB = function NCMB(keys) {
-  var _this = this;
+var NCMB = function () {
+  function NCMB() {
+    var _this = this;
 
-  _classCallCheck(this, NCMB);
+    _classCallCheck(this, NCMB);
 
-  this.applicationkey = keys.applicationkey;
-  this.clientKey = keys.clientKey;
-  this.version = '2013-09-01';
-  this.scriptVersion = '2015-09-01';
-  this.fqdn = 'mb.api.cloud.nifty.com';
-  this.scriptFqdn = 'script.mb.api.cloud.nifty.com';
-  this.port = 443;
-  this.protocol = 'https:';
-  this.signatureMethod = 'HmacSHA256';
-  this.signatureVersion = 2;
-  this.stub = false;
-  this.currentUser = false;
-  this.url = this.protocol + '//' + this.fqdn + '/' + this.version;
+    this.applicationkey = null;
+    this.clientKey = null;
+    this.version = '2013-09-01';
+    this.scriptVersion = '2015-09-01';
+    this.fqdn = 'mb.api.cloud.nifty.com';
+    this.scriptFqdn = 'script.mb.api.cloud.nifty.com';
+    this.port = 443;
+    this.protocol = 'https:';
+    this.signatureMethod = 'HmacSHA256';
+    this.signatureVersion = 2;
+    this.stub = false;
+    this.currentUser = false;
+    this.url = this.protocol + '//' + this.fqdn + '/' + this.version;
 
-  this.setCurrentUser = function (json) {
-    _this.currentUser = json;
-  };
+    this.setCurrentUser = function (json) {
+      _this.currentUser = json;
+    };
 
-  this.sortObjectConvertToParameter = function (queryObject) {
-    return Object.keys(queryObject).sort().map(function (key) {
-      return [key, queryObject[key]].join('=');
-    }).join('&');
-  };
+    this.sortObjectConvertToParameter = function (queryObject) {
+      return Object.keys(queryObject).sort().map(function (key) {
+        return [key, queryObject[key]].join('=');
+      }).join('&');
+    };
 
-  this.login = function (options) {
-    (0, _login2.default)(_this, options);
-  };
+    this.login = function (options) {
+      (0, _login2.default)(_this, options);
+    };
 
-  this.users = {};
+    this.users = {};
 
-  this.users.create = function (options) {
-    _users2.default.create(_this, options);
-  };
+    this.users.create = function (options) {
+      _users2.default.create(_this, options);
+    };
 
-  this.users.get = function (options) {
-    _users2.default.get(_this, options);
-  };
+    this.users.get = function (options) {
+      _users2.default.get(_this, options);
+    };
 
-  this.requestPasswordReset = function (options) {
-    (0, _requestPasswordReset2.default)(_this, options);
-  };
-};
+    this.requestPasswordReset = function (options) {
+      (0, _requestPasswordReset2.default)(_this, options);
+    };
+  }
+
+  _createClass(NCMB, [{
+    key: 'set',
+    value: function set(keys) {
+      this.applicationkey = keys.applicationkey;
+      this.clientKey = keys.clientKey;
+    }
+  }]);
+
+  return NCMB;
+}();
 
 exports.default = NCMB;
 
@@ -465,7 +479,7 @@ var _ncmb2 = _interopRequireDefault(_ncmb);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.NCMB = _ncmb2.default;
+window.NCMB = new _ncmb2.default();
 
 /***/ }),
 /* 9 */
