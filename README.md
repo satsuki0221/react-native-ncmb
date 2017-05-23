@@ -32,7 +32,7 @@ NCMB.userCreate({
   query: {
     'userName': 'test',
     'password': 'testtest',
-	 etc...
+     etc...
   },
   success: (json) => {
 	/*
@@ -68,9 +68,9 @@ NCMB.login({
   success: (json) => {
 	/*
 	  json = {
-	 	objectId: "objectID"
+	    objectId: "objectID"
 	    userName: "test",
-		etc...
+	    etc...
 	  }
 	*/
   },
@@ -94,9 +94,9 @@ NCMB.usersGet({
   success: (json) => {
 	/*
 	  json = {
-	 	objectId: "objectID"
+	    objectId: "objectID"
 	    userName: "test",
-		etc...
+	    etc...
 	  }
 	*/
   },
@@ -118,7 +118,7 @@ NCMB.requestPasswordReset({
   success: (json) => {
 	/*
 	  json = {
-	 	createDate: "2017-05-23T08:56:26.464Z"
+	    createDate: "2017-05-23T08:56:26.464Z"
 	  }
 	*/
   },
