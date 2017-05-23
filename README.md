@@ -1,8 +1,4 @@
-# React-native-ncmb
-
-http://mb.cloud.nifty.com/doc/current/rest/common/format.html
-
-Use Nifty mobile backend 's REST API to correspond to React Native
+# React-native-ncmb http://mb.cloud.nifty.com/doc/current/rest/common/format.html Use Nifty mobile backend 's REST API to correspond to React Native
 
 ## Install
 ```
@@ -35,22 +31,22 @@ NCMB.userCreate({
      etc...
   },
   success: (json) => {
-	/*
-	  json = {
-	    authData: null
-	    createDate: "2017-05-23T08:31:03.654Z"
-	    objectId: "objectID"
-	    sessionToken: "sessionToken"
-	    userName: "userName"
-	  }
-	*/
+  /*
+    json = {
+      authData: null
+      createDate: "2017-05-23T08:31:03.654Z"
+      objectId: "objectID"
+      sessionToken: "sessionToken"
+      userName: "userName"
+    }
+  */
   },
   error: (json) => {
     /*
-	  json = {
-	    code: "Error Code", 
-	    error: "Error Message"
-	  }
+    json = {
+      code: "Error Code", 
+      error: "Error Message"
+    }
     */
   }
 })
@@ -66,20 +62,20 @@ NCMB.login({
     'password': 'testtest',
   },
   success: (json) => {
-	/*
-	  json = {
-	    objectId: "objectID"
-	    userName: "test",
-	    etc...
-	  }
-	*/
+  /*
+    json = {
+      objectId: "objectID"
+      userName: "test",
+      etc...
+    }
+  */
   },
   error: (json) => {
     /*
-	  json = {
-	    code: "Error Code", 
-	    error: "Error Message"
-	  }
+    json = {
+      code: "Error Code", 
+      error: "Error Message"
+    }
     */
   }
 })
@@ -92,13 +88,13 @@ NCMB.login({
 ```
 NCMB.usersGet({
   success: (json) => {
-	/*
-	  json = {
-	    objectId: "objectID"
-	    userName: "test",
-	    etc...
-	  }
-	*/
+  /*
+    json = {
+      objectId: "objectID"
+      userName: "test",
+      etc...
+    }
+  */
   },
   error: (json) => {
     /*
@@ -115,21 +111,16 @@ NCMB.usersGet({
 ```
 NCMB.requestPasswordReset({
   query: {mailAddress: 'test@gmail.com'},
-  success: (json) => {
-	/*
-	  json = {
-	    createDate: "2017-05-23T08:56:26.464Z"
-	  }
-	*/
+  success: (json) =>{
+    /* json = { createDate: "2017-05-23T08:56:26.464Z" } */
   },
-  error: (json) => {
+  error: (json) =>{
     /*
-      json = {
-        code: "Error Code", 
-        error: "Error Message"
-      }
+    json = {
+      code: "Error Code",
+      error: "Error Message"
+    }
     */
   }
 })
 ```
-
