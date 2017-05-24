@@ -207,24 +207,6 @@ var NCMB = function () {
         return [key, queryObject[key]].join('=');
       }).join('&');
     };
-
-    this.login = function (options) {
-      (0, _login2.default)(_this, options);
-    };
-
-    this.users = {};
-
-    this.users.create = function (options) {
-      _users2.default.create(_this, options);
-    };
-
-    this.users.get = function (options) {
-      _users2.default.get(_this, options);
-    };
-
-    this.requestPasswordReset = function (options) {
-      (0, _requestPasswordReset2.default)(_this, options);
-    };
   }
 
   _createClass(NCMB, [{
@@ -232,6 +214,26 @@ var NCMB = function () {
     value: function set(keys) {
       this.applicationkey = keys.applicationkey;
       this.clientKey = keys.clientKey;
+    }
+  }, {
+    key: 'usersCreate',
+    value: function usersCreate(options) {
+      _users2.default.Create(this, options);
+    }
+  }, {
+    key: 'usersGet',
+    value: function usersGet(options) {
+      _users2.default.Get(this, options);
+    }
+  }, {
+    key: 'login',
+    value: function login(options) {
+      (0, _login2.default)(this, options);
+    }
+  }, {
+    key: 'requestPasswordReset',
+    value: function requestPasswordReset(options) {
+      (0, _requestPasswordReset2.default)(this, options);
     }
   }]);
 
@@ -462,8 +464,8 @@ var _get2 = _interopRequireDefault(_get);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  create: _create2.default,
-  get: _get2.default
+  Create: _create2.default,
+  Get: _get2.default
 };
 
 /***/ }),
