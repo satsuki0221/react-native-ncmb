@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -87,6 +87,7 @@ exports.default = function (ncmb, options) {
   var method = options.method,
       endpoint = options.endpoint,
       sessionToken = options.sessionToken,
+      responseContent = options.responseContent,
       query = options.query,
       beforeFetch = options.beforeFetch,
       beforeSuccess = options.beforeSuccess,
@@ -122,13 +123,21 @@ exports.default = function (ncmb, options) {
     headers['X-NCMB-Apps-Session-Token'] = ncmb.currentUser.sessionToken;
   }
 
+  var body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
+
   if (typeof beforeFetch === 'function') beforeFetch();
 
   fetch(fetchUrl, {
     method: method,
     headers: headers,
-    body: method === 'POST' ? JSON.stringify(query) : null
+    body: body
   }).then(function (response) {
+    if (response.ok && !responseContent) {
+      return {
+        statusCode: response.status,
+        ok: response.ok
+      };
+    }
     return response.json();
   }).then(function (json) {
     if (!json.error) {
@@ -166,7 +175,7 @@ var _login = __webpack_require__(2);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _users = __webpack_require__(7);
+var _users = __webpack_require__(8);
 
 var _users2 = _interopRequireDefault(_users);
 
@@ -198,6 +207,10 @@ var NCMB = function () {
     this.currentUser = false;
     this.url = this.protocol + '//' + this.fqdn + '/' + this.version;
 
+    this.deleteCurrentUser = function () {
+      _this.currentUser = false;
+    };
+
     this.setCurrentUser = function (json) {
       _this.currentUser = json;
     };
@@ -224,6 +237,16 @@ var NCMB = function () {
     key: 'usersGet',
     value: function usersGet(options) {
       _users2.default.Get(this, options);
+    }
+  }, {
+    key: 'usersUpdate',
+    value: function usersUpdate(options) {
+      _users2.default.Update(this, options);
+    }
+  }, {
+    key: 'usersDelete',
+    value: function usersDelete(options) {
+      _users2.default.Delete(this, options);
     }
   }, {
     key: 'login',
@@ -269,6 +292,7 @@ exports.default = function (ncmb, options) {
     method: 'GET',
     endpoint: 'login',
     sessionToken: false,
+    responseContent: true,
     query: query,
     success: success,
     error: error,
@@ -307,6 +331,7 @@ exports.default = function (ncmb, options) {
     method: 'POST',
     endpoint: 'requestPasswordReset',
     sessionToken: false,
+    responseContent: true,
     query: query,
     success: success,
     error: error,
@@ -329,7 +354,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _jssha = __webpack_require__(9);
+var _jssha = __webpack_require__(11);
 
 var _jssha2 = _interopRequireDefault(_jssha);
 
@@ -394,6 +419,7 @@ exports.default = function (ncmb, options) {
     method: 'POST',
     endpoint: 'users',
     sessionToken: false,
+    responseContent: true,
     query: query,
     success: success,
     error: error,
@@ -430,14 +456,17 @@ exports.default = function (ncmb, options) {
   if (!ncmb.currentUser) throw new Error('currentUser is undefind');
 
   (0, _fetch2.default)(ncmb, {
-    method: 'GET',
+    method: 'DELETE',
     endpoint: 'users/' + ncmb.currentUser.objectId,
     sessionToken: true,
+    responseContent: false,
     query: null,
     success: success,
     error: error,
     beforeFetch: null,
-    beforeSuccess: null,
+    beforeSuccess: function beforeSuccess() {
+      ncmb.deleteCurrentUser();
+    },
     beforeError: null
   });
 };
@@ -453,23 +482,108 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _fetch = __webpack_require__(0);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (ncmb, options) {
+  var success = options.success,
+      error = options.error;
+
+
+  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+
+  (0, _fetch2.default)(ncmb, {
+    method: 'GET',
+    endpoint: 'users/' + ncmb.currentUser.objectId,
+    sessionToken: true,
+    responseContent: true,
+    query: null,
+    success: success,
+    error: error,
+    beforeFetch: null,
+    beforeSuccess: null,
+    beforeError: null
+  });
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _create = __webpack_require__(5);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _get = __webpack_require__(6);
+var _get = __webpack_require__(7);
 
 var _get2 = _interopRequireDefault(_get);
+
+var _update = __webpack_require__(9);
+
+var _update2 = _interopRequireDefault(_update);
+
+var _delete = __webpack_require__(6);
+
+var _delete2 = _interopRequireDefault(_delete);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   Create: _create2.default,
-  Get: _get2.default
+  Get: _get2.default,
+  Update: _update2.default,
+  Delete: _delete2.default
 };
 
 /***/ }),
-/* 8 */
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _fetch = __webpack_require__(0);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (ncmb, options) {
+  var query = options.query,
+      success = options.success,
+      error = options.error;
+
+
+  (0, _fetch2.default)(ncmb, {
+    method: 'PUT',
+    endpoint: 'users/' + ncmb.currentUser.objectId,
+    sessionToken: true,
+    responseContent: true,
+    query: query,
+    success: success,
+    error: error,
+    beforeFetch: null,
+    beforeSuccess: null,
+    beforeError: null
+  });
+};
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -484,7 +598,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.NCMB = new _ncmb2.default();
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
