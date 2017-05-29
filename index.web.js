@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 12);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,7 +77,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _signature = __webpack_require__(4);
+var _signature = __webpack_require__(6);
 
 var _signature2 = _interopRequireDefault(_signature);
 
@@ -175,13 +175,21 @@ var _login = __webpack_require__(2);
 
 var _login2 = _interopRequireDefault(_login);
 
-var _users = __webpack_require__(8);
+var _logout = __webpack_require__(3);
+
+var _logout2 = _interopRequireDefault(_logout);
+
+var _users = __webpack_require__(10);
 
 var _users2 = _interopRequireDefault(_users);
 
-var _requestPasswordReset = __webpack_require__(3);
+var _requestPasswordReset = __webpack_require__(5);
 
 var _requestPasswordReset2 = _interopRequireDefault(_requestPasswordReset);
+
+var _requestMailAddressUserEntry = __webpack_require__(4);
+
+var _requestMailAddressUserEntry2 = _interopRequireDefault(_requestMailAddressUserEntry);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -254,9 +262,19 @@ var NCMB = function () {
       (0, _login2.default)(this, options);
     }
   }, {
+    key: 'logout',
+    value: function logout(options) {
+      (0, _logout2.default)(this, options);
+    }
+  }, {
     key: 'requestPasswordReset',
     value: function requestPasswordReset(options) {
       (0, _requestPasswordReset2.default)(this, options);
+    }
+  }, {
+    key: 'requestMailAddressUserEntry',
+    value: function requestMailAddressUserEntry(options) {
+      (0, _requestMailAddressUserEntry2.default)(this, options);
     }
   }]);
 
@@ -322,6 +340,80 @@ var _fetch2 = _interopRequireDefault(_fetch);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (ncmb, options) {
+  var success = options.success,
+      error = options.error;
+
+
+  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+
+  (0, _fetch2.default)(ncmb, {
+    method: 'GET',
+    endpoint: 'logout',
+    sessionToken: true,
+    responseContent: false,
+    success: success,
+    error: error,
+    beforeFetch: null,
+    beforeSuccess: null,
+    beforeError: null
+  });
+};
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _fetch = __webpack_require__(0);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (ncmb, options) {
+  var query = options.query,
+      success = options.success,
+      error = options.error;
+
+
+  (0, _fetch2.default)(ncmb, {
+    method: 'POST',
+    endpoint: 'requestMailAddressUserEntry',
+    sessionToken: false,
+    responseContent: true,
+    query: query,
+    success: success,
+    error: error,
+    beforeFetch: null,
+    beforeSuccess: null,
+    beforeError: null
+  });
+};
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _fetch = __webpack_require__(0);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (ncmb, options) {
   var query = options.query,
       success = options.success,
       error = options.error;
@@ -342,7 +434,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -354,7 +446,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _jssha = __webpack_require__(11);
+var _jssha = __webpack_require__(13);
 
 var _jssha2 = _interopRequireDefault(_jssha);
 
@@ -393,7 +485,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -432,7 +524,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -472,7 +564,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -510,7 +602,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -520,19 +612,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _create = __webpack_require__(5);
+var _create = __webpack_require__(7);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _get = __webpack_require__(7);
+var _get = __webpack_require__(9);
 
 var _get2 = _interopRequireDefault(_get);
 
-var _update = __webpack_require__(9);
+var _update = __webpack_require__(11);
 
 var _update2 = _interopRequireDefault(_update);
 
-var _delete = __webpack_require__(6);
+var _delete = __webpack_require__(8);
 
 var _delete2 = _interopRequireDefault(_delete);
 
@@ -546,7 +638,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -568,6 +660,8 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
+  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+
   (0, _fetch2.default)(ncmb, {
     method: 'PUT',
     endpoint: 'users/' + ncmb.currentUser.objectId,
@@ -583,7 +677,7 @@ exports.default = function (ncmb, options) {
 };
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -598,7 +692,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.NCMB = new _ncmb2.default();
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
