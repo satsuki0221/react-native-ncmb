@@ -85,12 +85,12 @@ NCMB.login({
 })
 ```
 
-- [User Get](http://mb.cloud.nifty.com/doc/current/rest/user/userGet.html)
+- [User Read](http://mb.cloud.nifty.com/doc/current/rest/user/userGet.html)
 
 #### Only after login
 
 ```
-NCMB.usersGet({
+NCMB.usersRead({
   success: (json) => {
   /*
     json = {
