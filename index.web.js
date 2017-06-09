@@ -103,6 +103,13 @@ exports.default = function (ncmb, options) {
     query: query
   });
 
+  if (!(typeof ncmb.applicationkey === 'string' || typeof ncmb.sessionToken === 'string')) {
+    throw new Error('Please set the key');
+  }
+
+  var applicationkey = '';
+  if (typeof ncmb.applicationkey === 'string') applicationkey = ncmb.applicationkey;
+
   var fetchUrl = ncmb.url + '/' + endpoint;
 
   if (method === 'GET') {
@@ -112,15 +119,18 @@ exports.default = function (ncmb, options) {
   }
 
   var headers = {
-    'X-NCMB-Application-Key': ncmb.applicationkey,
+    'X-NCMB-Application-Key': applicationkey,
     'X-NCMB-Timestamp': nowTime,
     'X-NCMB-Signature': signature,
     'Content-Type': 'application/json'
   };
 
   if (sessionToken) {
-    if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-    headers['X-NCMB-Apps-Session-Token'] = ncmb.currentUser.sessionToken;
+    if (typeof ncmb.currentUser !== 'boolean' && !ncmb.currentUser) {
+      headers['X-NCMB-Apps-Session-Token'] = ncmb.currentUser.sessionToken;
+    } else {
+      throw new Error('currentUser is undefind');
+    }
   }
 
   var body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
@@ -179,7 +189,7 @@ var _logout = __webpack_require__(3);
 
 var _logout2 = _interopRequireDefault(_logout);
 
-var _users = __webpack_require__(10);
+var _users = __webpack_require__(9);
 
 var _users2 = _interopRequireDefault(_users);
 
@@ -242,9 +252,9 @@ var NCMB = function () {
       _users2.default.Create(this, options);
     }
   }, {
-    key: 'usersGet',
-    value: function usersGet(options) {
-      _users2.default.Get(this, options);
+    key: 'usersRead',
+    value: function usersRead(options) {
+      _users2.default.Read(this, options);
     }
   }, {
     key: 'usersUpdate',
@@ -351,6 +361,7 @@ exports.default = function (ncmb, options) {
     endpoint: 'logout',
     sessionToken: true,
     responseContent: false,
+    query: null,
     success: success,
     error: error,
     beforeFetch: null,
@@ -545,11 +556,13 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
+  var objectId = '';
   if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
 
   (0, _fetch2.default)(ncmb, {
     method: 'DELETE',
-    endpoint: 'users/' + ncmb.currentUser.objectId,
+    endpoint: 'users/' + objectId,
     sessionToken: true,
     responseContent: false,
     query: null,
@@ -574,51 +587,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _fetch = __webpack_require__(0);
-
-var _fetch2 = _interopRequireDefault(_fetch);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (ncmb, options) {
-  var success = options.success,
-      error = options.error;
-
-
-  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-
-  (0, _fetch2.default)(ncmb, {
-    method: 'GET',
-    endpoint: 'users/' + ncmb.currentUser.objectId,
-    sessionToken: true,
-    responseContent: true,
-    query: null,
-    success: success,
-    error: error,
-    beforeFetch: null,
-    beforeSuccess: null,
-    beforeError: null
-  });
-};
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _create = __webpack_require__(7);
 
 var _create2 = _interopRequireDefault(_create);
 
-var _get = __webpack_require__(9);
+var _read = __webpack_require__(10);
 
-var _get2 = _interopRequireDefault(_get);
+var _read2 = _interopRequireDefault(_read);
 
 var _update = __webpack_require__(11);
 
@@ -632,9 +607,49 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   Create: _create2.default,
-  Get: _get2.default,
+  Read: _read2.default,
   Update: _update2.default,
   Delete: _delete2.default
+};
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _fetch = __webpack_require__(0);
+
+var _fetch2 = _interopRequireDefault(_fetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (ncmb, options) {
+  var success = options.success,
+      error = options.error;
+
+
+  var objectId = '';
+  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
+
+  (0, _fetch2.default)(ncmb, {
+    method: 'GET',
+    endpoint: 'users/' + objectId,
+    sessionToken: true,
+    responseContent: true,
+    query: null,
+    success: success,
+    error: error,
+    beforeFetch: null,
+    beforeSuccess: null,
+    beforeError: null
+  });
 };
 
 /***/ }),
@@ -660,11 +675,13 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
+  var objectId = '';
   if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
 
   (0, _fetch2.default)(ncmb, {
     method: 'PUT',
-    endpoint: 'users/' + ncmb.currentUser.objectId,
+    endpoint: 'users/' + objectId,
     sessionToken: true,
     responseContent: true,
     query: query,
