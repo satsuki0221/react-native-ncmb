@@ -103,41 +103,33 @@ exports.default = function (ncmb, options) {
     query: query
   });
 
-  if (!(typeof ncmb.applicationkey === 'string' || typeof ncmb.sessionToken === 'string')) {
-    throw new Error('Please set the key');
-  }
-
-  var applicationkey = '';
-  if (typeof ncmb.applicationkey === 'string') applicationkey = ncmb.applicationkey;
-
-  var fetchUrl = ncmb.url + '/' + endpoint;
-
-  if (method === 'GET') {
-    if (query instanceof Object) {
+  var createFetchUrl = function createFetchUrl() {
+    var fetchUrl = ncmb.url + '/' + endpoint;
+    if (method === 'GET' && query instanceof Object) {
       fetchUrl += '?' + ncmb.sortObjectConvertToParameter(query);
     }
-  }
-
-  var headers = {
-    'X-NCMB-Application-Key': applicationkey,
-    'X-NCMB-Timestamp': nowTime,
-    'X-NCMB-Signature': signature,
-    'Content-Type': 'application/json'
+    return fetchUrl;
   };
 
-  if (sessionToken) {
-    if (typeof ncmb.currentUser !== 'boolean' && !ncmb.currentUser) {
-      headers['X-NCMB-Apps-Session-Token'] = ncmb.currentUser.sessionToken;
-    } else {
-      throw new Error('currentUser is undefind');
+  var createHeaders = function createHeaders() {
+    var temp = {
+      'X-NCMB-Application-Key': ncmb.getApplicationKey(),
+      'X-NCMB-Timestamp': nowTime,
+      'X-NCMB-Signature': signature,
+      'Content-Type': 'application/json'
+    };
+    if (sessionToken) {
+      temp['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken;
     }
-  }
+    return temp;
+  };
 
+  var headers = createHeaders();
   var body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
 
   if (typeof beforeFetch === 'function') beforeFetch();
 
-  fetch(fetchUrl, {
+  fetch(createFetchUrl(), {
     method: method,
     headers: headers,
     body: body
@@ -225,12 +217,33 @@ var NCMB = function () {
     this.currentUser = false;
     this.url = this.protocol + '//' + this.fqdn + '/' + this.version;
 
+    this.setCurrentUser = function (json) {
+      _this.currentUser = json;
+    };
+
+    this.getCurrentUser = function () {
+      if (typeof _this.currentUser !== 'boolean' && !_this.currentUser) {
+        return _this.currentUser;
+      }
+      throw new Error('currentUser is undefind');
+    };
+
     this.deleteCurrentUser = function () {
       _this.currentUser = false;
     };
 
-    this.setCurrentUser = function (json) {
-      _this.currentUser = json;
+    this.getApplicationKey = function () {
+      if (typeof _this.applicationkey === 'string') {
+        return _this.applicationkey;
+      }
+      throw new Error('Please set the applicationkey');
+    };
+
+    this.getClientKey = function () {
+      if (typeof _this.clientKey === 'string') {
+        return _this.clientKey;
+      }
+      throw new Error('Please set the clientKey');
     };
 
     this.sortObjectConvertToParameter = function (queryObject) {
@@ -475,7 +488,7 @@ exports.default = function (ncmb, options) {
   var signatureObject = {
     SignatureMethod: ncmb.signatureMethod,
     SignatureVersion: ncmb.signatureVersion,
-    'X-NCMB-Application-Key': ncmb.applicationkey,
+    'X-NCMB-Application-Key': ncmb.getApplicationKey(),
     'X-NCMB-Timestamp': nowTime
   };
 
@@ -489,7 +502,7 @@ exports.default = function (ncmb, options) {
     }
   }
 
-  sha256.setHMACKey(ncmb.clientKey, 'TEXT');
+  sha256.setHMACKey(ncmb.getClientKey(), 'TEXT');
 
   sha256.update([method, ncmb.fqdn, '/' + ncmb.version + '/' + endpoint, ncmb.sortObjectConvertToParameter(signatureObject)].join('\n'));
   return sha256.getHMAC('B64');
