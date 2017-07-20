@@ -112,16 +112,16 @@ exports.default = function (ncmb, options) {
   };
 
   var createHeaders = function createHeaders() {
-    var temp = {
+    var header = {
       'X-NCMB-Application-Key': ncmb.getApplicationKey(),
       'X-NCMB-Timestamp': nowTime,
       'X-NCMB-Signature': signature,
       'Content-Type': 'application/json'
     };
     if (sessionToken) {
-      temp['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken;
+      header['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken;
     }
-    return temp;
+    return header;
   };
 
   var headers = createHeaders();
@@ -217,15 +217,24 @@ var NCMB = function () {
     this.currentUser = false;
     this.url = this.protocol + '//' + this.fqdn + '/' + this.version;
 
+    this.notCurrentuser = function (error, Message) {
+      if (!_this.currentUser) {
+        error({
+          code: '',
+          error: Message
+        });
+        return true;
+      }
+    };
+
     this.setCurrentUser = function (json) {
       _this.currentUser = json;
     };
 
     this.getCurrentUser = function () {
-      if (typeof _this.currentUser !== 'boolean' && !_this.currentUser) {
+      if (typeof _this.currentUser !== 'boolean') {
         return _this.currentUser;
       }
-      throw new Error('currentUser is undefind');
     };
 
     this.deleteCurrentUser = function () {
@@ -236,14 +245,12 @@ var NCMB = function () {
       if (typeof _this.applicationkey === 'string') {
         return _this.applicationkey;
       }
-      throw new Error('Please set the applicationkey');
     };
 
     this.getClientKey = function () {
       if (typeof _this.clientKey === 'string') {
         return _this.clientKey;
       }
-      throw new Error('Please set the clientKey');
     };
 
     this.sortObjectConvertToParameter = function (queryObject) {
@@ -288,6 +295,7 @@ var NCMB = function () {
     key: 'logout',
     value: function logout(options) {
       (0, _logout2.default)(this, options);
+      this.currentUser = false;
     }
   }, {
     key: 'requestPasswordReset',
@@ -367,7 +375,7 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
-  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
+  if (ncmb.notCurrentuser(error, 'currentUser is undefind')) return;
 
   (0, _fetch2.default)(ncmb, {
     method: 'GET',
@@ -569,24 +577,28 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
-  var objectId = '';
-  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
+  if (ncmb.notCurrentuser(error, 'currentUser is undefind')) return;
 
-  (0, _fetch2.default)(ncmb, {
-    method: 'DELETE',
-    endpoint: 'users/' + objectId,
-    sessionToken: true,
-    responseContent: false,
-    query: null,
-    success: success,
-    error: error,
-    beforeFetch: null,
-    beforeSuccess: function beforeSuccess() {
-      ncmb.deleteCurrentUser();
-    },
-    beforeError: null
-  });
+  if (typeof ncmb.currentUser === 'string') {
+    var objectId = ncmb.currentUser.objectId;
+    (0, _fetch2.default)(ncmb, {
+      method: 'DELETE',
+      endpoint: 'users/' + objectId,
+      sessionToken: true,
+      responseContent: false,
+      query: null,
+      success: success,
+      error: error,
+      beforeFetch: null,
+      beforeSuccess: function beforeSuccess() {
+        ncmb.deleteCurrentUser();
+      },
+      beforeError: null
+    });
+    return;
+  }
+
+  error({ code: '', error: 'An unexpected error occurred' });
 };
 
 /***/ }),
@@ -647,22 +659,26 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
-  var objectId = '';
-  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
+  if (ncmb.notCurrentuser(error, 'currentUser is undefind')) return;
 
-  (0, _fetch2.default)(ncmb, {
-    method: 'GET',
-    endpoint: 'users/' + objectId,
-    sessionToken: true,
-    responseContent: true,
-    query: null,
-    success: success,
-    error: error,
-    beforeFetch: null,
-    beforeSuccess: null,
-    beforeError: null
-  });
+  if (typeof ncmb.currentUser === 'string') {
+    var objectId = ncmb.currentUser.objectId;
+    (0, _fetch2.default)(ncmb, {
+      method: 'GET',
+      endpoint: 'users/' + objectId,
+      sessionToken: true,
+      responseContent: true,
+      query: null,
+      success: success,
+      error: error,
+      beforeFetch: null,
+      beforeSuccess: null,
+      beforeError: null
+    });
+    return;
+  }
+
+  error({ code: '', error: 'An unexpected error occurred' });
 };
 
 /***/ }),
@@ -688,22 +704,26 @@ exports.default = function (ncmb, options) {
       error = options.error;
 
 
-  var objectId = '';
-  if (!ncmb.currentUser) throw new Error('currentUser is undefind');
-  if (typeof ncmb.currentUser !== 'boolean') objectId = ncmb.currentUser.objectId;
+  if (ncmb.notCurrentuser(error, 'currentUser is undefind')) return;
 
-  (0, _fetch2.default)(ncmb, {
-    method: 'PUT',
-    endpoint: 'users/' + objectId,
-    sessionToken: true,
-    responseContent: true,
-    query: query,
-    success: success,
-    error: error,
-    beforeFetch: null,
-    beforeSuccess: null,
-    beforeError: null
-  });
+  if (typeof ncmb.currentUser === 'string') {
+    var objectId = ncmb.currentUser.objectId;
+    (0, _fetch2.default)(ncmb, {
+      method: 'PUT',
+      endpoint: 'users/' + objectId,
+      sessionToken: true,
+      responseContent: true,
+      query: query,
+      success: success,
+      error: error,
+      beforeFetch: null,
+      beforeSuccess: null,
+      beforeError: null
+    });
+    return;
+  }
+
+  error({ code: '', error: 'An unexpected error occurred' });
 };
 
 /***/ }),
