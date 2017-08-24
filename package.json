@@ -9,6 +9,7 @@
     "url": "https://github.com/satsuki0221/react-native-ncmb"
   },
   "scripts": {
+    "dev": "tsc -w",
     "build": "webpack",
     "flow": "flow check",
     "lint:js": "eslint lib || true",
@@ -34,6 +35,10 @@
     "eslint-plugin-react": "^7.0.0",
     "flow-bin": "^0.46.0",
     "flow-typed": "^2.1.2",
+    "ts-loader": "^2.3.3",
+    "tslint": "^5.6.0",
+    "tslint-config-airbnb": "^5.2.1",
+    "typescript": "^2.4.2",
     "webpack": "^2.5.1"
   }
 }
