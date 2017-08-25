@@ -1,8 +1,13 @@
 abstract class Core {
-  constructor(query: {[x: string]: string}) {
-
+  query: { key: string };
+  constructor(query: { key: string }) {
+    this.query = query;
   }
-  beforeFetch(): void { void 0; }
-  beforeSuccess(): void { void 0; }
-  beforeError(): void { void 0; }
+
+  abstract method: string;
+  abstract endpoint: string;
+
+  beforeFetch() { void 0; }
+  beforeSuccess() { void 0; }
+  beforeError() { void 0; }
 }

@@ -1,19 +1,12 @@
 
-interface Params {
-  method: string;
-  endpoint: string;
-  sessionToken: boolean;
-  query?: {
-    [x: string]: string,
-  };
-  beforeFetch?: void;
-  beforeSuccess?: void;
-  success?: void;
-  beforeError?: void;
-  error?: void;
-}
+export default (
+  method: string,
+  endpoint: string,
+  sessionToken: boolean,
+  responseContent: boolean,
+  query: { key: string },
+) => {
 
-class Fetch{
-  constructor(params: Params) {
-  }
+  const nowTime = (new Date()).toISOString();
+  
 }

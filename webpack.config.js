@@ -1,22 +1,23 @@
 module.exports = {
   context: __dirname,
   entry: {
-    application: './lib/web.js',
+    application: './src/test.ts',
   },
   output: {
     path: __dirname,
     filename: 'index.web.js',
   },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".json"]
+  },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(ts)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['flow', 'es2015'],
-          plugins: ['transform-flow-strip-types'],
-        },
+        loaders: [
+          'ts-loader',
+        ],
       },
     ],
   },

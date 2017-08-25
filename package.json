@@ -10,12 +10,13 @@
   },
   "scripts": {
     "dev": "tsc -w",
-    "build": "webpack",
+    "build": "webpack -w",
     "flow": "flow check",
     "lint:js": "eslint lib || true",
     "fix:js": "eslint lib --fix || true"
   },
   "dependencies": {
+    "@types/jssha": "^0.0.29",
     "jssha": "^2.2.0"
   },
   "devDependencies": {
