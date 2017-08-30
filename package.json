@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@types/jssha": "^0.0.29",
+    "@types/whatwg-fetch": "^0.0.33",
     "jssha": "^2.2.0"
   },
   "devDependencies": {

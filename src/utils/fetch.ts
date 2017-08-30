@@ -1,4 +1,6 @@
 
+import { convert } from './index';
+
 export default (
   ncmb: any,
   options: {
@@ -28,7 +30,7 @@ export default (
   const createFetchUrl = () => {
     let fetchUrl = `${ncmb.url}/${endpoint}`;
     if (method === 'GET' && query instanceof Object) {
-      fetchUrl += `?${ncmb.sortObjectConvertToParameter(query)}`;
+      fetchUrl += `?${convert(query)}`;
     }
     return fetchUrl;
   };
@@ -46,4 +48,10 @@ export default (
     return header;
   };
 
+  const headers = createHeaders();
+  const body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
+
+  return async () => {
+    return await fetch(createFetchUrl(), { method, headers, body });
+  };
 };
