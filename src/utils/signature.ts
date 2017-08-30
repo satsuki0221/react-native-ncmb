@@ -1,6 +1,6 @@
 
 import * as jsSHA from 'jssha';
-import { convert } from './utils/index'
+import { convert } from './index';
 
 export default (
   ncmb: any,
@@ -8,8 +8,8 @@ export default (
     method: string,
     endpoint: string,
     nowTime: string,
-    query: { [key: string]: string }
-  }
+    query: { [key: string]: string },
+  },
 ) => {
 
   const {
@@ -18,14 +18,14 @@ export default (
     signatureMethod,
     signatureVersion,
     getApplicationKey,
-    getClientKey
+    getClientKey,
   } = ncmb;
 
   const {
     method,
     endpoint,
     nowTime,
-    query
+    query,
   } = options;
 
   const sha256 = new jsSHA('SHA-256', 'TEXT');
@@ -57,4 +57,4 @@ export default (
     ].join('\n'),
   );
   return sha256.getHMAC('B64');
-}
+};

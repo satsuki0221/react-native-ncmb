@@ -1,5 +1,5 @@
 
-import signature from './signature';
+import { signature, fetch } from './utils/index';
 
 export default class NCMB {
 
@@ -26,22 +26,33 @@ export default class NCMB {
   getApplicationKey = () => {
     if (typeof this.applicationkey === 'string') return this.applicationkey;
     throw new Error('Please set the applicationkey');
-  };
+  }
 
   getClientKey = () => {
     if (typeof this.clientKey === 'string') return this.clientKey;
     throw new Error('Please set the clientKey');
-  };
+  }
 
   createSignature = (
     options: {
       method: string,
       endpoint: string,
       nowTime: string,
-      query: { [key: string]: string }
-    }
+      query: { [key: string]: string },
+    },
   ) => {
     signature(this, options);
+  }
+
+  fetchBase = (
+    options: {
+      method: string,
+      endpoint: string,
+      sessionToken: boolean,
+      query: { [key: string]: string },
+    },
+  ) => {
+    fetch(this, options);
   }
 
 }
