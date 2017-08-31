@@ -1,11 +1,14 @@
 
 import { signature, fetch } from './utils/index';
+import user from './lib/user';
 
 export default class NCMB {
 
   applicationkey: string | null = null;
   clientKey: string | null = null;
-  currentUser: null | { key: string } = null;
+  currentUser: null | {[key: string]: string} = null;
+
+  user: any;
 
   version = '2013-09-01';
   scriptVersion = '2015-09-01';
@@ -18,9 +21,28 @@ export default class NCMB {
   stub = false;
   url = `${this.protocol}//${this.fqdn}/${this.version}`;
 
-  set(keys: { applicationkey: string, clientKey: string } ){
+  constructor() {
+    this.user = new user(this);
+  }
+
+  set(keys: { applicationkey: string, clientKey: string }){
     this.applicationkey = keys.applicationkey;
     this.clientKey = keys.clientKey;
+  }
+
+  setCurrentUser = (res: {[key: string]: string}) => {
+    this.currentUser = res;
+  }
+
+  getCurrentUser = () => {
+    if (this.currentUser) {
+      return this.currentUser;
+    }
+    throw new Error('currentUser is undefind');
+  }
+
+  deleteCurrentUser = () => {
+    this.currentUser = null;
   }
 
   getApplicationKey = () => {
@@ -41,7 +63,7 @@ export default class NCMB {
       query: { [key: string]: string },
     },
   ) => {
-    signature(this, options);
+    return signature(this, options);
   }
 
   fetchBase = (
@@ -52,7 +74,10 @@ export default class NCMB {
       query: { [key: string]: string },
     },
   ) => {
-    fetch(this, options);
+    return fetch(this, options)().then((res: any) => {
+      if (res.ok) return res;
+      throw new Error(res.statusText);
+    });
   }
 
 }

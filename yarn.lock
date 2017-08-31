@@ -6,16 +6,6 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/jssha/-/jssha-0.0.29.tgz#95e83dba98787ff796d2d5f37a1925abf41bc9cb"
 
-"@types/whatwg-fetch@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@types/whatwg-fetch/-/whatwg-fetch-0.0.33.tgz#19c0d2863c8cb2380f21a1c736b79cbf7895bb13"
-  dependencies:
-    "@types/whatwg-streams" "*"
-
-"@types/whatwg-streams@*":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@types/whatwg-streams/-/whatwg-streams-0.0.3.tgz#4853d869f3e26d5adfd0d9407b6edce716d06bfe"
-
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"

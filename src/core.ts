@@ -10,4 +10,6 @@ abstract class Core {
   beforeFetch() { void 0; }
   beforeSuccess() { void 0; }
   beforeError() { void 0; }
+
+  
 }

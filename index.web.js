@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,26 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__signature__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__fetch__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__signature__ = __webpack_require__(7);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__convert__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__signature__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__fetch__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_index__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_user__ = __webpack_require__(3);
+
 
 var NCMB = (function () {
     function NCMB() {
@@ -89,6 +108,18 @@ var NCMB = (function () {
         this.signatureVersion = 2;
         this.stub = false;
         this.url = this.protocol + "//" + this.fqdn + "/" + this.version;
+        this.setCurrentUser = function (res) {
+            _this.currentUser = res;
+        };
+        this.getCurrentUser = function () {
+            if (_this.currentUser) {
+                return _this.currentUser;
+            }
+            throw new Error('currentUser is undefind');
+        };
+        this.deleteCurrentUser = function () {
+            _this.currentUser = null;
+        };
         this.getApplicationKey = function () {
             if (typeof _this.applicationkey === 'string')
                 return _this.applicationkey;
@@ -100,8 +131,16 @@ var NCMB = (function () {
             throw new Error('Please set the clientKey');
         };
         this.createSignature = function (options) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__signature__["a" /* default */])(_this, options);
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils_index__["a" /* signature */])(_this, options);
         };
+        this.fetchBase = function (options) {
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils_index__["b" /* fetch */])(_this, options)().then(function (res) {
+                if (res.ok)
+                    return res;
+                throw new Error(res.statusText);
+            });
+        };
+        this.user = new __WEBPACK_IMPORTED_MODULE_1__lib_user__["a" /* default */](this);
     }
     NCMB.prototype.set = function (keys) {
         this.applicationkey = keys.applicationkey;
@@ -113,7 +152,7 @@ var NCMB = (function () {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -166,13 +205,156 @@ f[d]>>>24));for(c=0;24>c;c+=1){k=B("SHA3-");for(d=0;5>d;d+=1)g[d]=A(b[d][0],b[d]
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(1);
+var User = (function () {
+    function User(ncmb) {
+        this.ncmb = ncmb;
+    }
+    User.prototype.create = function (query) {
+        var _this = this;
+        return this.ncmb.fetchBase({
+            query: query,
+            method: 'POST',
+            endpoint: 'users',
+            sessionToken: false,
+        }).then(function (res) {
+            return res.json();
+        }).then(function (res) {
+            _this.ncmb.setCurrentUser(res);
+            return res;
+        });
+    };
+    User.prototype.delete = function () {
+        var _this = this;
+        return this.ncmb.fetchBase({
+            method: 'DELETE',
+            endpoint: "users/" + this.ncmb.currentUser.objectId,
+            sessionToken: true,
+        }).then(function () {
+            _this.ncmb.deleteCurrentUser();
+        });
+    };
+    return User;
+}());
+/* harmony default export */ __webpack_exports__["a"] = (User);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ncmb__ = __webpack_require__(1);
+
+window.NCMB = new __WEBPACK_IMPORTED_MODULE_0__ncmb__["a" /* default */]();
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function (queryObject) { return (Object.keys(queryObject).sort().map(function (key) {
+    return [key, queryObject[key]].join('=');
+}).join('&')); });;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(0);
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var _this = this;
+
+/* harmony default export */ __webpack_exports__["a"] = (function (ncmb, options) {
+    var method = options.method, endpoint = options.endpoint, sessionToken = options.sessionToken, query = options.query;
+    var nowTime = (new Date()).toISOString();
+    var signature = ncmb.createSignature({
+        method: method,
+        endpoint: endpoint,
+        nowTime: nowTime,
+        query: query,
+    });
+    var createFetchUrl = function () {
+        var fetchUrl = ncmb.url + "/" + endpoint;
+        if (method === 'GET' && query instanceof Object) {
+            fetchUrl += "?" + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__index__["c" /* convert */])(query);
+        }
+        return fetchUrl;
+    };
+    var createHeaders = function () {
+        var header = {
+            'X-NCMB-Application-Key': ncmb.getApplicationKey(),
+            'X-NCMB-Timestamp': nowTime,
+            'X-NCMB-Signature': signature,
+            'Content-Type': 'application/json',
+        };
+        if (sessionToken) {
+            header['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken;
+        }
+        return header;
+    };
+    var headers = createHeaders();
+    var body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
+    return function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, fetch(createFetchUrl(), { method: method, headers: headers, body: body })];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    }); };
+});;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jssha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_index__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(0);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function (ncmb, options) {
@@ -200,42 +382,10 @@ f[d]>>>24));for(c=0;24>c;c+=1){k=B("SHA3-");for(d=0;5>d;d+=1)g[d]=A(b[d][0],b[d]
         method,
         fqdn,
         "/" + version + "/" + endpoint,
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__utils_index__["a" /* convert */])(signatureObject),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject),
     ].join('\n'));
     return sha256.getHMAC('B64');
 });;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ncmb__ = __webpack_require__(0);
-
-window.NCMB = new __WEBPACK_IMPORTED_MODULE_0__ncmb__["a" /* default */]();
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(5);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__convert__["a"]; });
-
-
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function (queryObject) { return (Object.keys(queryObject).sort().map(function (key) {
-    return [key, queryObject[key]].join('=');
-}).join('&')); });;
 
 
 /***/ })
