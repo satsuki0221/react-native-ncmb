@@ -1,5 +1,5 @@
 
-import { signature, fetch } from './utils/index';
+import { signature, api } from './utils/index';
 import user from './lib/user';
 
 export default class NCMB {
@@ -21,11 +21,12 @@ export default class NCMB {
   stub = false;
   url = `${this.protocol}//${this.fqdn}/${this.version}`;
 
+
   constructor() {
     this.user = new user(this);
   }
 
-  set(keys: { applicationkey: string, clientKey: string }){
+  set(keys: { applicationkey: string, clientKey: string }) {
     this.applicationkey = keys.applicationkey;
     this.clientKey = keys.clientKey;
   }
@@ -66,7 +67,7 @@ export default class NCMB {
     return signature(this, options);
   }
 
-  fetchBase = (
+  api = (
     options: {
       method: string,
       endpoint: string,
@@ -74,7 +75,7 @@ export default class NCMB {
       query: { [key: string]: string },
     },
   ) => {
-    return fetch(this, options)().then((res: any) => {
+    return api(this, options)().then((res: any) => {
       if (res.ok) return res;
       throw new Error(res.statusText);
     });
