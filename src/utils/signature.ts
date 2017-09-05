@@ -1,9 +1,9 @@
-
+import ncmb from '../ncmb';
 import * as jsSHA from 'jssha';
 import { convert } from './index';
 
 export default (
-  ncmb: any,
+  ncmb: ncmb,
   options: {
     method: string,
     endpoint: string,
@@ -30,7 +30,7 @@ export default (
 
   const sha256 = new jsSHA('SHA-256', 'TEXT');
 
-  const signatureObject: {[key: string]: string} = {
+  const signatureObject: {[key: string]: string | number } = {
     SignatureMethod: signatureMethod,
     SignatureVersion: signatureVersion,
     'X-NCMB-Application-Key': getApplicationKey(),

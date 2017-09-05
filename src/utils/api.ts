@@ -1,13 +1,13 @@
-
+import ncmb from '../ncmb';
 import { convert } from './index';
 
 export default (
-  ncmb: any,
+  ncmb: ncmb,
   options: {
     method: string,
     endpoint: string,
     sessionToken: boolean,
-    query: { [key: string]: string },
+    query?: { [key: string]: string },
   },
 ) => {
 

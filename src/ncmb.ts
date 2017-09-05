@@ -4,11 +4,9 @@ import user from './lib/user';
 
 export default class NCMB {
 
-  applicationkey: string | null = null;
-  clientKey: string | null = null;
-  currentUser: null | {[key: string]: string} = null;
-
-  user: any;
+  private applicationkey: string | null = null;
+  private clientKey: string | null = null;
+  private currentUser: null | {[key: string]: string} = null;
 
   version = '2013-09-01';
   scriptVersion = '2015-09-01';
@@ -21,6 +19,7 @@ export default class NCMB {
   stub = false;
   url = `${this.protocol}//${this.fqdn}/${this.version}`;
 
+  user: user;
 
   constructor() {
     this.user = new user(this);
@@ -72,7 +71,7 @@ export default class NCMB {
       method: string,
       endpoint: string,
       sessionToken: boolean,
-      query: { [key: string]: string },
+      query?: { [key: string]: string },
     },
   ) => {
     return api(this, options)().then((res: any) => {

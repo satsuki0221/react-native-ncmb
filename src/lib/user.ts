@@ -1,6 +1,7 @@
+import ncmb from '../ncmb';
 
 export default class User {
-  ncmb: any;
+  ncmb: ncmb;
 
   constructor(ncmb: any) {
     this.ncmb = ncmb;
