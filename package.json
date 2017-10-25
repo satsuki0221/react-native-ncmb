@@ -10,10 +10,9 @@
   },
   "scripts": {
     "dev": "tsc -w",
-    "build": "webpack -w",
-    "flow": "flow check",
-    "lint:js": "eslint lib || true",
-    "fix:js": "eslint lib --fix || true"
+    "build": "tsc",
+    "webdev": "webpack -w",
+    "webbuild": "webpack"
   },
   "dependencies": {
     "@types/jssha": "^0.0.29",

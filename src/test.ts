@@ -1,3 +1,3 @@
-import NCMB from './ncmb';
+import ncmb from 'ncmb';
 
-(<any>window).NCMB = new NCMB();
+(<any>window).NCMB = new ncmb();

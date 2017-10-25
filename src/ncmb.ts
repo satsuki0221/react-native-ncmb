@@ -1,6 +1,22 @@
+import { Generic } from 'types/common';
+import User from 'lib/User';
+import Objects from 'lib/Objects';
+import { signature, api } from 'utils/index';
 
-import { signature, api } from './utils/index';
-import user from './lib/user';
+export type CreateSignature = {
+  method: string,
+  endpoint: string,
+  nowTime: string,
+  query: { [key: string]: string },
+};
+
+export type Api = {
+  method: string,
+  endpoint: string,
+  sessionToken: boolean,
+  query?: { [key: string]: string },
+};
+
 
 export default class NCMB {
 
@@ -19,10 +35,12 @@ export default class NCMB {
   stub = false;
   url = `${this.protocol}//${this.fqdn}/${this.version}`;
 
-  user: user;
+  user: User;
+  object: Objects;
 
   constructor() {
-    this.user = new user(this);
+    this.user = new User(this);
+    this.object = new Objects(this);
   }
 
   set(keys: { applicationkey: string, clientKey: string }) {
@@ -30,7 +48,7 @@ export default class NCMB {
     this.clientKey = keys.clientKey;
   }
 
-  setCurrentUser = (res: {[key: string]: string}) => {
+  setCurrentUser = (res: Generic) => {
     this.currentUser = res;
   }
 
@@ -55,29 +73,14 @@ export default class NCMB {
     throw new Error('Please set the clientKey');
   }
 
-  createSignature = (
-    options: {
-      method: string,
-      endpoint: string,
-      nowTime: string,
-      query: { [key: string]: string },
-    },
-  ) => {
+  createSignature = (options: CreateSignature) => {
     return signature(this, options);
   }
 
-  api = (
-    options: {
-      method: string,
-      endpoint: string,
-      sessionToken: boolean,
-      query?: { [key: string]: string },
-    },
-  ) => {
+  api = (options: Api) => {
     return api(this, options)().then((res: any) => {
       if (res.ok) return res;
       throw new Error(res.statusText);
     });
   }
-
 }

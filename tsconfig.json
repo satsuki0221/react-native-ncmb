@@ -3,9 +3,17 @@
     "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "es2015",
-    "target": "es5",
-    "lib": ["es2015", "es2016", "es2017", "dom"],
+    "target": "ES2017",
+    "module": "ES2015",
+    "baseUrl": "src",
+    "paths": {
+      "types/*": ["types/*"],
+      "utils/*": ["utils/*"],
+      "lib/*": ["lib/*"],
+      "ncmb": ["ncmb"]
+    },
+    "lib": ["es2017", "dom"],
+    "jsx": "react-native",
     "experimentalDecorators": true
   },
   "include": [

@@ -1,4 +1,4 @@
-import ncmb from '../ncmb';
+import ncmb from 'ncmb';
 import * as jsSHA from 'jssha';
 import { convert } from './index';
 
