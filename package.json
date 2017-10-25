@@ -9,7 +9,7 @@
     "url": "https://github.com/satsuki0221/react-native-ncmb"
   },
   "scripts": {
-    "dev": "tsc -w",
+    "dev": "tsc --p ./tsconfig_dev.json -w",
     "build": "tsc",
     "webdev": "webpack -w",
     "webbuild": "webpack"

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    // "sourceMap": true,
+    "sourceMap": true,
     "noImplicitAny": true,
     "target": "ES2017",
     "module": "ES2015",
