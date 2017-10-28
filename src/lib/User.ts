@@ -1,10 +1,6 @@
-import { Generic } from 'types/common';
+import { Generic, MailAddress } from 'types/index';
 import { signature, api } from 'utils/index';
 import Core from 'lib/Core';
-
-export type RequestPasswordReset = {
-  mailAddress: string,
-};
 
 export default class User extends Core {
 
@@ -35,14 +31,14 @@ export default class User extends Core {
   create(query: Generic) {
     return this.ncmb.api({
       query,
-      method: 'GET',
-      endpoint: 'logout',
-      sessionToken: true,
-    }).then((res: any) => {
+      method: 'POST',
+      endpoint: 'users',
+      sessionToken: false,
+    }).then((res) => {
       return res.json();
-    }).then((res: any) => {
-      this.ncmb.setCurrentUser(res);
-      return res;
+    }).then((json) => {
+      this.ncmb.setCurrentUser(json);
+      return json;
     });
   }
 
@@ -59,7 +55,7 @@ export default class User extends Core {
 
   read() {
     return this.ncmb.api({
-      method: 'PUT',
+      method: 'GET',
       endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
       sessionToken: true,
     }).then((res: any) => {
@@ -72,13 +68,15 @@ export default class User extends Core {
       method: 'DELETE',
       endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
       sessionToken: true,
-    }).then(() => {
+    }).then((res) => {
       this.ncmb.deleteCurrentUser();
+      return res;
     });
   }
 
-  requestMailAddressUserEntry() {
+  requestMailAddressUserEntry(query: MailAddress) {
     return this.ncmb.api({
+      query,
       method: 'POST',
       endpoint: 'requestMailAddressUserEntry',
       sessionToken: false,
@@ -87,7 +85,7 @@ export default class User extends Core {
     });
   }
 
-  requestPasswordReset(query: RequestPasswordReset) {
+  requestPasswordReset(query: MailAddress) {
     return this.ncmb.api({
       query,
       method: 'POST',

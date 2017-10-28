@@ -1,4 +1,4 @@
-import { Generic } from 'types/common';
+import { Generic } from 'types/index';
 import User from 'lib/User';
 import Objects from 'lib/Objects';
 import { signature, api } from 'utils/index';

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,9 +71,9 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__signature__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__signature__ = __webpack_require__(9);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__convert__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__signature__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
@@ -88,13 +88,28 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_index__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_user__ = __webpack_require__(3);
+class Core {
+    constructor(ncmb) {
+        this.ncmb = ncmb;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Core;
 
 
-var NCMB = (function () {
-    function NCMB() {
-        var _this = this;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_User__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lib_Objects__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_utils_index__ = __webpack_require__(0);
+
+
+
+class NCMB {
+    constructor() {
         this.applicationkey = null;
         this.clientKey = null;
         this.currentUser = null;
@@ -107,52 +122,53 @@ var NCMB = (function () {
         this.signatureMethod = 'HmacSHA256';
         this.signatureVersion = 2;
         this.stub = false;
-        this.url = this.protocol + "//" + this.fqdn + "/" + this.version;
-        this.setCurrentUser = function (res) {
-            _this.currentUser = res;
+        this.url = `${this.protocol}//${this.fqdn}/${this.version}`;
+        this.setCurrentUser = (res) => {
+            this.currentUser = res;
         };
-        this.getCurrentUser = function () {
-            if (_this.currentUser) {
-                return _this.currentUser;
+        this.getCurrentUser = () => {
+            if (this.currentUser) {
+                return this.currentUser;
             }
             throw new Error('currentUser is undefind');
         };
-        this.deleteCurrentUser = function () {
-            _this.currentUser = null;
+        this.deleteCurrentUser = () => {
+            this.currentUser = null;
         };
-        this.getApplicationKey = function () {
-            if (typeof _this.applicationkey === 'string')
-                return _this.applicationkey;
+        this.getApplicationKey = () => {
+            if (typeof this.applicationkey === 'string')
+                return this.applicationkey;
             throw new Error('Please set the applicationkey');
         };
-        this.getClientKey = function () {
-            if (typeof _this.clientKey === 'string')
-                return _this.clientKey;
+        this.getClientKey = () => {
+            if (typeof this.clientKey === 'string')
+                return this.clientKey;
             throw new Error('Please set the clientKey');
         };
-        this.createSignature = function (options) {
-            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils_index__["a" /* signature */])(_this, options);
+        this.createSignature = (options) => {
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_utils_index__["a" /* signature */])(this, options);
         };
-        this.api = function (options) {
-            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__utils_index__["b" /* api */])(_this, options)().then(function (res) {
+        this.api = (options) => {
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_utils_index__["b" /* api */])(this, options)().then((res) => {
                 if (res.ok)
                     return res;
                 throw new Error(res.statusText);
             });
         };
-        this.user = new __WEBPACK_IMPORTED_MODULE_1__lib_user__["a" /* default */](this);
+        this.user = new __WEBPACK_IMPORTED_MODULE_0_lib_User__["a" /* default */](this);
+        this.object = new __WEBPACK_IMPORTED_MODULE_1_lib_Objects__["a" /* default */](this);
     }
-    NCMB.prototype.set = function (keys) {
+    set(keys) {
         this.applicationkey = keys.applicationkey;
         this.clientKey = keys.clientKey;
-    };
-    return NCMB;
-}());
-/* harmony default export */ __webpack_exports__["a"] = (NCMB);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = NCMB;
+
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -205,91 +221,62 @@ f[d]>>>24));for(c=0;24>c;c+=1){k=B("SHA3-");for(d=0;5>d;d+=1)g[d]=A(b[d][0],b[d]
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var User = (function () {
-    function User(ncmb) {
-        this.ncmb = ncmb;
-    }
-    User.prototype.login = function (query) {
-        var _this = this;
-        return this.ncmb.api({
-            query: query,
-            method: 'GET',
-            endpoint: 'login',
-            sessionToken: false,
-        }).then(function (res) {
-            return res.json();
-        }).then(function (res) {
-            _this.ncmb.setCurrentUser(res);
-            return res;
-        });
-    };
-    User.prototype.logout = function () {
-        var _this = this;
-        return this.ncmb.api({
-            method: 'GET',
-            endpoint: 'logout',
-            sessionToken: false,
-        }).then(function () {
-            _this.ncmb.deleteCurrentUser();
-        });
-    };
-    User.prototype.create = function (query) {
-        var _this = this;
-        return this.ncmb.api({
-            query: query,
-            method: 'GET',
-            endpoint: 'logout',
-            sessionToken: true,
-        }).then(function (res) {
-            return res.json();
-        }).then(function (res) {
-            _this.ncmb.setCurrentUser(res);
-            return res;
-        });
-    };
-    User.prototype.update = function (query) {
-        return this.ncmb.api({
-            query: query,
-            method: 'PUT',
-            endpoint: "users/" + this.ncmb.getCurrentUser().objectId,
-            sessionToken: true,
-        });
-    };
-    User.prototype.read = function () {
-        return this.ncmb.api({
-            method: 'PUT',
-            endpoint: "users/" + this.ncmb.getCurrentUser().objectId,
-            sessionToken: true,
-        });
-    };
-    User.prototype.delete = function () {
-        var _this = this;
-        return this.ncmb.api({
-            method: 'DELETE',
-            endpoint: "users/" + this.ncmb.getCurrentUser().objectId,
-            sessionToken: true,
-        }).then(function () {
-            _this.ncmb.deleteCurrentUser();
-        });
-    };
-    return User;
-}());
-/* harmony default export */ __webpack_exports__["a"] = (User);
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ncmb__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(1);
 
-window.NCMB = new __WEBPACK_IMPORTED_MODULE_0__ncmb__["a" /* default */]();
+class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
+    create(options) {
+        return this.ncmb.api({
+            query: options.query,
+            method: 'POST',
+            endpoint: `classes/${options.className}/`,
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    read(options) {
+        return this.ncmb.api({
+            query: options.query,
+            method: 'GET',
+            endpoint: `classes/${options.className}/${options.objectId}`,
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    update(options) {
+        return this.ncmb.api({
+            query: options.query,
+            method: 'PUT',
+            endpoint: `classes/${options.className}/${options.objectId}`,
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    delete(options) {
+        return this.ncmb.api({
+            method: 'DELETE',
+            endpoint: `classes/${options.className}/${options.objectId}`,
+            sessionToken: false,
+        });
+    }
+    search(options) {
+        return this.ncmb.api({
+            method: 'GET',
+            endpoint: `classes/${options.className}`,
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Objects;
+
 
 
 /***/ }),
@@ -297,62 +284,134 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0__ncmb__["a" /* default */]();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(0);
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var _this = this;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(1);
 
-/* harmony default export */ __webpack_exports__["a"] = (function (ncmb, options) {
-    var method = options.method, endpoint = options.endpoint, sessionToken = options.sessionToken, query = options.query;
-    var nowTime = (new Date()).toISOString();
-    var signature = ncmb.createSignature({
-        method: method,
-        endpoint: endpoint,
-        nowTime: nowTime,
-        query: query,
+class User extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
+    login(query) {
+        return this.ncmb.api({
+            query,
+            method: 'GET',
+            endpoint: 'login',
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        }).then((res) => {
+            this.ncmb.setCurrentUser(res);
+            return res;
+        });
+    }
+    logout() {
+        return this.ncmb.api({
+            method: 'GET',
+            endpoint: 'logout',
+            sessionToken: false,
+        }).then(() => {
+            this.ncmb.deleteCurrentUser();
+        });
+    }
+    create(query) {
+        return this.ncmb.api({
+            query,
+            method: 'POST',
+            endpoint: 'users',
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        }).then((json) => {
+            this.ncmb.setCurrentUser(json);
+            return json;
+        });
+    }
+    update(query) {
+        return this.ncmb.api({
+            query,
+            method: 'PUT',
+            endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
+            sessionToken: true,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    read() {
+        return this.ncmb.api({
+            method: 'GET',
+            endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
+            sessionToken: true,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    delete() {
+        return this.ncmb.api({
+            method: 'DELETE',
+            endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
+            sessionToken: true,
+        }).then((res) => {
+            this.ncmb.deleteCurrentUser();
+            return res;
+        });
+    }
+    requestMailAddressUserEntry(query) {
+        return this.ncmb.api({
+            query,
+            method: 'POST',
+            endpoint: 'requestMailAddressUserEntry',
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+    requestPasswordReset(query) {
+        return this.ncmb.api({
+            query,
+            method: 'POST',
+            endpoint: 'requestPasswordReset',
+            sessionToken: false,
+        }).then((res) => {
+            return res.json();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = User;
+
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ncmb__ = __webpack_require__(2);
+
+window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(0);
+
+/* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
+    const { method, endpoint, sessionToken, query, } = options;
+    const nowTime = (new Date()).toISOString();
+    const signature = ncmb.createSignature({
+        method,
+        endpoint,
+        nowTime,
+        query,
     });
-    var createFetchUrl = function () {
-        var fetchUrl = ncmb.url + "/" + endpoint;
+    const createFetchUrl = () => {
+        let fetchUrl = `${ncmb.url}/${endpoint}`;
         if (method === 'GET' && query instanceof Object) {
-            fetchUrl += "?" + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__index__["c" /* convert */])(query);
+            fetchUrl += `?${__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__index__["c" /* convert */])(query)}`;
         }
         return fetchUrl;
     };
-    var createHeaders = function () {
-        var header = {
+    const createHeaders = () => {
+        const header = {
             'X-NCMB-Application-Key': ncmb.getApplicationKey(),
             'X-NCMB-Timestamp': nowTime,
             'X-NCMB-Signature': signature,
@@ -363,44 +422,37 @@ var _this = this;
         }
         return header;
     };
-    var headers = createHeaders();
-    var body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
-    return function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch(createFetchUrl(), { method: method, headers: headers, body: body })];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    }); };
-});;
+    const headers = createHeaders();
+    const body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null;
+    return async () => {
+        return await fetch(createFetchUrl(), { method, headers, body });
+    };
+});
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function (queryObject) { return (Object.keys(queryObject).sort().map(function (key) {
-    return [key, queryObject[key]].join('=');
-}).join('&')); });;
+/* harmony default export */ __webpack_exports__["a"] = ((queryObject) => (Object.keys(queryObject).sort().map(key => [key, queryObject[key]].join('=')).join('&')));
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jssha__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(0);
 
 
-/* harmony default export */ __webpack_exports__["a"] = (function (ncmb, options) {
-    var fqdn = ncmb.fqdn, version = ncmb.version, signatureMethod = ncmb.signatureMethod, signatureVersion = ncmb.signatureVersion, getApplicationKey = ncmb.getApplicationKey, getClientKey = ncmb.getClientKey;
-    var method = options.method, endpoint = options.endpoint, nowTime = options.nowTime, query = options.query;
-    var sha256 = new __WEBPACK_IMPORTED_MODULE_0_jssha__('SHA-256', 'TEXT');
-    var signatureObject = {
+/* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
+    const { fqdn, version, signatureMethod, signatureVersion, getApplicationKey, getClientKey, } = ncmb;
+    const { method, endpoint, nowTime, query, } = options;
+    const sha256 = new __WEBPACK_IMPORTED_MODULE_0_jssha__('SHA-256', 'TEXT');
+    const signatureObject = {
         SignatureMethod: signatureMethod,
         SignatureVersion: signatureVersion,
         'X-NCMB-Application-Key': getApplicationKey(),
@@ -408,8 +460,8 @@ var _this = this;
     };
     if (method === 'GET') {
         if (query instanceof Object) {
-            Object.keys(query).forEach(function (key) {
-                var q = query[key];
+            Object.keys(query).forEach((key) => {
+                let q = query[key];
                 if (typeof q === 'object')
                     q = JSON.stringify(q);
                 signatureObject[key] = encodeURIComponent(q);
@@ -420,11 +472,11 @@ var _this = this;
     sha256.update([
         method,
         fqdn,
-        "/" + version + "/" + endpoint,
+        `/${version}/${endpoint}`,
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject),
     ].join('\n'));
     return sha256.getHMAC('B64');
-});;
+});
 
 
 /***/ })

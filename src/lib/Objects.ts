@@ -1,21 +1,8 @@
-import { Generic } from 'types/common';
+import { Generic, Query, ClassName, ObjectId } from 'types/index';
 import Core from 'lib/Core';
 
-export type Create = {
-  className: string,
-  query: Generic,
-};
-
-export type Read_Update = {
-  className: string,
-  objectId: string,
-  query: Generic,
-};
-
-export type Delete = {
-  className: string,
-  objectId: string,
-};
+export type Create = Query & ClassName;
+export type Options = Query & ClassName & ObjectId;
 
 export default class Objects extends Core {
 
@@ -30,7 +17,7 @@ export default class Objects extends Core {
     });
   }
 
-  read(options: Read_Update) {
+  read(options: Options) {
     return this.ncmb.api({
       query: options.query,
       method: 'GET',
@@ -41,7 +28,7 @@ export default class Objects extends Core {
     });
   }
 
-  update(options: Read_Update) {
+  update(options: Options) {
     return this.ncmb.api({
       query: options.query,
       method: 'PUT',
@@ -52,7 +39,7 @@ export default class Objects extends Core {
     });
   }
 
-  delete(options: Delete) {
+  delete(options: Options) {
     return this.ncmb.api({
       method: 'DELETE',
       endpoint: `classes/${options.className}/${options.objectId}`,
@@ -60,7 +47,7 @@ export default class Objects extends Core {
     });
   }
 
-  search(options: Create) {
+  search(options: Options) {
     return this.ncmb.api({
       method: 'GET',
       endpoint: `classes/${options.className}`,
