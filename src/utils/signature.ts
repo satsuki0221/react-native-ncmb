@@ -1,15 +1,10 @@
-import ncmb from 'ncmb';
+import ncmb, { CreateSignature } from 'ncmb';
 import * as jsSHA from 'jssha';
 import { convert } from './index';
 
 export default (
   ncmb: ncmb,
-  options: {
-    method: string,
-    endpoint: string,
-    nowTime: string,
-    query: { [key: string]: string },
-  },
+  options: CreateSignature,
 ) => {
 
   const {
@@ -21,38 +16,31 @@ export default (
     getClientKey,
   } = ncmb;
 
-  const {
-    method,
-    endpoint,
-    nowTime,
-    query,
-  } = options;
-
   const sha256 = new jsSHA('SHA-256', 'TEXT');
 
   const signatureObject: {[key: string]: string | number } = {
     SignatureMethod: signatureMethod,
     SignatureVersion: signatureVersion,
     'X-NCMB-Application-Key': getApplicationKey(),
-    'X-NCMB-Timestamp': nowTime,
+    'X-NCMB-Timestamp': options.nowTime,
   };
 
-  if (method === 'GET') {
-    if (query instanceof Object) {
-      Object.keys(query).forEach((key) => {
-        let q = query[key];
+  if (options.method === 'GET') {
+    if (options.query instanceof Object) {
+      Object.keys(options.query).forEach((key) => {
+        let q = options.query[key];
         if (typeof q === 'object') q = JSON.stringify(q);
-        signatureObject[key] = encodeURIComponent(q);
+        signatureObject[key] = encodeURI(q);
       });
     }
   }
-
+  console.log(convert(signatureObject));
   sha256.setHMACKey(getClientKey(), 'TEXT');
   sha256.update(
     [
-      method,
+      options.method,
       fqdn,
-      `/${version}/${endpoint}`,
+      `/${version}/${options.endpoint}`,
       convert(signatureObject),
     ].join('\n'),
   );

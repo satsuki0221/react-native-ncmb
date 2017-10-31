@@ -1,20 +1,21 @@
 import { Generic } from 'types/index';
 import User from 'lib/User';
 import Objects from 'lib/Objects';
+import Role from 'lib/Role/index';
 import { signature, api } from 'utils/index';
 
 export type CreateSignature = {
   method: string,
   endpoint: string,
   nowTime: string,
-  query: { [key: string]: string },
+  query: { [key: string]: any },
 };
 
 export type Api = {
   method: string,
   endpoint: string,
   sessionToken: boolean,
-  query?: { [key: string]: string },
+  query?: { [key: string]: any },
 };
 
 
@@ -35,13 +36,9 @@ export default class NCMB {
   stub = false;
   url = `${this.protocol}//${this.fqdn}/${this.version}`;
 
-  user: User;
-  object: Objects;
-
-  constructor() {
-    this.user = new User(this);
-    this.object = new Objects(this);
-  }
+  user = new User(this);
+  object = new Objects(this);
+  role = new Role(this);
 
   set(keys: { applicationkey: string, clientKey: string }) {
     this.applicationkey = keys.applicationkey;

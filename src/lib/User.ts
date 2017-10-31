@@ -1,5 +1,4 @@
 import { Generic, MailAddress } from 'types/index';
-import { signature, api } from 'utils/index';
 import Core from 'lib/Core';
 
 export default class User extends Core {

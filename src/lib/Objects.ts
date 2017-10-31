@@ -48,11 +48,16 @@ export default class Objects extends Core {
   }
 
   search(options: Options) {
-    return this.ncmb.api({
+    const header = {
+      query: {},
       method: 'GET',
       endpoint: `classes/${options.className}`,
       sessionToken: false,
-    }).then((res: any) => {
+    };
+    if (options.query instanceof Object) header.query = {
+      where: JSON.stringify(options.query),
+    };
+    return this.ncmb.api(header).then((res: any) => {
       return res.json();
     });
   }

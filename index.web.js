@@ -63,28 +63,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__signature__ = __webpack_require__(9);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__convert__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__signature__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
-
-
-
-
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,13 +81,53 @@ class Core {
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(0);
+
+class RollCore extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
+    createBelongData(className, registerIds) {
+        return {
+            __op: 'AddRelation',
+            objects: registerIds.map((id) => {
+                return Object.assign({ objectId: id }, { className, __type: 'Pointer' });
+            }),
+        };
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = RollCore;
+
+
+
+/***/ }),
 /* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_User__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lib_Objects__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_utils_index__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__convert__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__api__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__signature__ = __webpack_require__(13);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__convert__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__signature__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__api__["a"]; });
+
+
+
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_User__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lib_Objects__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lib_Role_index__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_utils_index__ = __webpack_require__(2);
+
 
 
 
@@ -123,6 +146,9 @@ class NCMB {
         this.signatureVersion = 2;
         this.stub = false;
         this.url = `${this.protocol}//${this.fqdn}/${this.version}`;
+        this.user = new __WEBPACK_IMPORTED_MODULE_0_lib_User__["a" /* default */](this);
+        this.object = new __WEBPACK_IMPORTED_MODULE_1_lib_Objects__["a" /* default */](this);
+        this.role = new __WEBPACK_IMPORTED_MODULE_2_lib_Role_index__["a" /* default */](this);
         this.setCurrentUser = (res) => {
             this.currentUser = res;
         };
@@ -146,17 +172,15 @@ class NCMB {
             throw new Error('Please set the clientKey');
         };
         this.createSignature = (options) => {
-            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_utils_index__["a" /* signature */])(this, options);
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_utils_index__["a" /* signature */])(this, options);
         };
         this.api = (options) => {
-            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_utils_index__["b" /* api */])(this, options)().then((res) => {
+            return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_utils_index__["b" /* api */])(this, options)().then((res) => {
                 if (res.ok)
                     return res;
                 throw new Error(res.statusText);
             });
         };
-        this.user = new __WEBPACK_IMPORTED_MODULE_0_lib_User__["a" /* default */](this);
-        this.object = new __WEBPACK_IMPORTED_MODULE_1_lib_Objects__["a" /* default */](this);
     }
     set(keys) {
         this.applicationkey = keys.applicationkey;
@@ -168,7 +192,7 @@ class NCMB {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -221,11 +245,11 @@ f[d]>>>24));for(c=0;24>c;c+=1){k=B("SHA3-");for(d=0;5>d;d+=1)g[d]=A(b[d][0],b[d]
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(0);
 
 class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
     create(options) {
@@ -266,11 +290,17 @@ class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] 
         });
     }
     search(options) {
-        return this.ncmb.api({
+        const header = {
+            query: {},
             method: 'GET',
             endpoint: `classes/${options.className}`,
             sessionToken: false,
-        }).then((res) => {
+        };
+        if (options.query instanceof Object)
+            header.query = {
+                where: JSON.stringify(options.query),
+            };
+        return this.ncmb.api(header).then((res) => {
             return res.json();
         });
     }
@@ -280,11 +310,145 @@ class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] 
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RoleCore__ = __webpack_require__(1);
+
+class Create extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
+    only(query) {
+        return this.ncmb.api({
+            query,
+            method: 'POST',
+            endpoint: 'roles',
+            sessionToken: false,
+        });
+    }
+    belongUser(options) {
+        return this.ncmb.api({
+            query: {
+                roleName: options.roleName,
+                belongUser: this.createBelongData('user', options.registerIds),
+            },
+            method: 'POST',
+            endpoint: 'roles',
+            sessionToken: false,
+        });
+    }
+    belongRole(options) {
+        return this.ncmb.api({
+            query: {
+                roleName: options.roleName,
+                belongRole: this.createBelongData('role', options.registerIds),
+            },
+            method: 'POST',
+            endpoint: 'roles',
+            sessionToken: false,
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Create;
+
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RoleCore__ = __webpack_require__(1);
+
+class Create extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
+    only(objectId) {
+        return this.ncmb.api({
+            method: 'PUT',
+            endpoint: `roles/${objectId}`,
+            sessionToken: false,
+        });
+    }
+    belongUser(options) {
+        return this.ncmb.api({
+            query: {
+                belongUser: this.createBelongData('user', options.registerIds),
+            },
+            method: 'PUT',
+            endpoint: `roles/${options.objectId}`,
+            sessionToken: false,
+        });
+    }
+    belongRole(options) {
+        return this.ncmb.api({
+            query: {
+                belongRole: this.createBelongData('role', options.registerIds),
+            },
+            method: 'PUT',
+            endpoint: `roles/${options.objectId}`,
+            sessionToken: false,
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Create;
+
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RoleCore__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Create__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Update__ = __webpack_require__(7);
+
+
+
+class Role extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
+    constructor() {
+        super(...arguments);
+        this.create = new __WEBPACK_IMPORTED_MODULE_1__Create__["a" /* default */](this.ncmb);
+        this.update = new __WEBPACK_IMPORTED_MODULE_2__Update__["a" /* default */](this.ncmb);
+    }
+    read(objectId) {
+        return this.ncmb.api({
+            method: 'GET',
+            endpoint: `roles/${objectId}`,
+            sessionToken: true,
+        });
+    }
+    delete(objectId) {
+        return this.ncmb.api({
+            method: 'DELETE',
+            endpoint: `roles/${objectId}`,
+            sessionToken: true,
+        });
+    }
+    search(where) {
+        const header = {
+            query: {},
+            method: 'GET',
+            endpoint: 'roles',
+            sessionToken: false,
+        };
+        if (where instanceof Object)
+            header.query = {
+                where: JSON.stringify(where),
+            };
+        return this.ncmb.api(header).then((res) => {
+            return res.json();
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Role;
+
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lib_Core__ = __webpack_require__(0);
 
 class User extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
     login(query) {
@@ -377,22 +541,22 @@ class User extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
 
 
 /***/ }),
-/* 6 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ncmb__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ncmb__ = __webpack_require__(3);
 
 window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 
 
 /***/ }),
-/* 7 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(2);
 
 /* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
     const { method, endpoint, sessionToken, query, } = options;
@@ -431,7 +595,7 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 
 
 /***/ }),
-/* 8 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -439,40 +603,40 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 
 
 /***/ }),
-/* 9 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jssha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jssha__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(2);
 
 
 /* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
     const { fqdn, version, signatureMethod, signatureVersion, getApplicationKey, getClientKey, } = ncmb;
-    const { method, endpoint, nowTime, query, } = options;
     const sha256 = new __WEBPACK_IMPORTED_MODULE_0_jssha__('SHA-256', 'TEXT');
     const signatureObject = {
         SignatureMethod: signatureMethod,
         SignatureVersion: signatureVersion,
         'X-NCMB-Application-Key': getApplicationKey(),
-        'X-NCMB-Timestamp': nowTime,
+        'X-NCMB-Timestamp': options.nowTime,
     };
-    if (method === 'GET') {
-        if (query instanceof Object) {
-            Object.keys(query).forEach((key) => {
-                let q = query[key];
+    if (options.method === 'GET') {
+        if (options.query instanceof Object) {
+            Object.keys(options.query).forEach((key) => {
+                let q = options.query[key];
                 if (typeof q === 'object')
                     q = JSON.stringify(q);
-                signatureObject[key] = encodeURIComponent(q);
+                signatureObject[key] = encodeURI(q);
             });
         }
     }
+    console.log(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject));
     sha256.setHMACKey(getClientKey(), 'TEXT');
     sha256.update([
-        method,
+        options.method,
         fqdn,
-        `/${version}/${endpoint}`,
+        `/${version}/${options.endpoint}`,
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject),
     ].join('\n'));
     return sha256.getHMAC('B64');
