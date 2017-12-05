@@ -14,7 +14,7 @@ module.exports = {
     filename: 'index.web.js',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"],
+    extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       types: srcPath('types/'),
       lib: srcPath('lib/'),
