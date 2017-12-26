@@ -1,3 +1,3 @@
-import ncmb from 'ncmb';
+import ncmb from 'ncmb'
 
-(<any>window).NCMB = new ncmb();
+;(<any>window).NCMB = new ncmb()

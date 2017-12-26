@@ -1,18 +1,17 @@
-import { ObjectId } from 'types/index';
-import RoleCore, { ObjectIds } from './RoleCore';
+import { ObjectId } from 'types/index'
+import RoleCore, { Ids } from './RoleCore'
 
 export type Options = ObjectId & {
-  registerIds: ObjectIds,
-};
+  registerIds: Ids
+}
 
 export default class Create extends RoleCore {
-
   only(objectId: ObjectId) {
     return this.ncmb.api({
       method: 'PUT',
       endpoint: `roles/${objectId}`,
       sessionToken: false,
-    });
+    })
   }
 
   belongUser(options: Options) {
@@ -23,7 +22,7 @@ export default class Create extends RoleCore {
       method: 'PUT',
       endpoint: `roles/${options.objectId}`,
       sessionToken: false,
-    });
+    })
   }
 
   belongRole(options: Options) {
@@ -34,7 +33,6 @@ export default class Create extends RoleCore {
       method: 'PUT',
       endpoint: `roles/${options.objectId}`,
       sessionToken: false,
-    });
+    })
   }
-
 }

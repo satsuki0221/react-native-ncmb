@@ -1,14 +1,13 @@
-import RoleCore, { RollName, Options } from './RoleCore';
+import RoleCore, { RollName, Options } from './RoleCore'
 
 export default class Create extends RoleCore {
-
   only(query: RollName) {
     return this.ncmb.api({
       query,
       method: 'POST',
       endpoint: 'roles',
       sessionToken: false,
-    });
+    })
   }
 
   belongUser(options: Options) {
@@ -20,7 +19,7 @@ export default class Create extends RoleCore {
       method: 'POST',
       endpoint: 'roles',
       sessionToken: false,
-    });
+    })
   }
 
   belongRole(options: Options) {
@@ -32,7 +31,6 @@ export default class Create extends RoleCore {
       method: 'POST',
       endpoint: 'roles',
       sessionToken: false,
-    });
+    })
   }
-
 }

@@ -1,32 +1,32 @@
-import ncmb from 'ncmb';
-import { api } from 'utils/index';
-import Core from 'lib/Core';
+import ncmb from 'ncmb'
+import { api } from 'utils/index'
+import Core from 'lib/Core'
 
-export type RollName = { roleName: string };
-export type ObjectIds = string[];
-export type Objects = {
-  __type: string,
-  className: string,
-  objectId: string,
-}[];
+export type Ids = string[]
+export interface RollName {
+  roleName: string
+}
+export interface Obj {
+  __type: string
+  className: string
+  objectId: string
+}
 
-export type Belong = {
-  __op: string,
-  objects: Objects,
-};
-export type Options = RollName & {
-  registerIds: ObjectIds,
-};
+export interface Belong {
+  __op: string
+  objects: Obj[]
+}
+export interface Options extends RollName {
+  registerIds: Ids
+}
 
 export default abstract class RollCore extends Core {
-
-  createBelongData(className: string, registerIds: ObjectIds): Belong {
+  createBelongData(className: string, registerIds: Ids): Belong {
     return {
       __op: 'AddRelation',
-      objects: registerIds.map((id) => {
-        return Object.assign({ objectId: id }, { className, __type: 'Pointer' });
+      objects: registerIds.map(id => {
+        return Object.assign({ objectId: id }, { className, __type: 'Pointer' })
       }),
-    };
+    }
   }
-
 }
