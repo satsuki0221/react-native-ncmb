@@ -8,7 +8,7 @@ export default class User extends Core {
         query,
         method: 'GET',
         endpoint: 'login',
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()
@@ -24,7 +24,7 @@ export default class User extends Core {
       .api({
         method: 'GET',
         endpoint: 'logout',
-        sessionToken: false,
+        sessionToken: false
       })
       .then(() => {
         this.ncmb.deleteCurrentUser()
@@ -37,7 +37,7 @@ export default class User extends Core {
         query,
         method: 'POST',
         endpoint: 'users',
-        sessionToken: false,
+        sessionToken: false
       })
       .then(res => {
         return res.json()
@@ -54,7 +54,7 @@ export default class User extends Core {
         query,
         method: 'PUT',
         endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-        sessionToken: true,
+        sessionToken: true
       })
       .then((res: any) => {
         return res.json()
@@ -66,7 +66,7 @@ export default class User extends Core {
       .api({
         method: 'GET',
         endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-        sessionToken: true,
+        sessionToken: true
       })
       .then((res: any) => {
         return res.json()
@@ -78,7 +78,7 @@ export default class User extends Core {
       .api({
         method: 'DELETE',
         endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-        sessionToken: true,
+        sessionToken: true
       })
       .then(res => {
         this.ncmb.deleteCurrentUser()
@@ -92,7 +92,7 @@ export default class User extends Core {
         query,
         method: 'POST',
         endpoint: 'requestMailAddressUserEntry',
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()
@@ -105,7 +105,7 @@ export default class User extends Core {
         query,
         method: 'POST',
         endpoint: 'requestPasswordReset',
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()

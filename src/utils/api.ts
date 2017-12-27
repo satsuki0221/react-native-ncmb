@@ -8,7 +8,7 @@ export default (
     endpoint: string
     sessionToken: boolean
     query?: { [key: string]: string }
-  },
+  }
 ) => {
   const { method, endpoint, sessionToken, query } = options
   const nowTime = new Date().toISOString()
@@ -17,7 +17,7 @@ export default (
     method,
     endpoint,
     nowTime,
-    query,
+    query
   })
 
   const createFetchUrl = () => {
@@ -33,7 +33,7 @@ export default (
       'X-NCMB-Application-Key': ncmb.getApplicationKey(),
       'X-NCMB-Timestamp': nowTime,
       'X-NCMB-Signature': signature,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     }
     if (sessionToken) {
       header['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken
@@ -42,7 +42,8 @@ export default (
   }
 
   const headers = createHeaders()
-  const body = method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null
+  const body =
+    method === 'POST' || method === 'PUT' ? JSON.stringify(query) : null
 
   return async () => {
     return await fetch(createFetchUrl(), { method, headers, body })

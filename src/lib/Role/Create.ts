@@ -6,7 +6,7 @@ export default class Create extends RoleCore {
       query,
       method: 'POST',
       endpoint: 'roles',
-      sessionToken: false,
+      sessionToken: false
     })
   }
 
@@ -14,11 +14,11 @@ export default class Create extends RoleCore {
     return this.ncmb.api({
       query: {
         roleName: options.roleName,
-        belongUser: this.createBelongData('user', options.registerIds),
+        belongUser: this.createBelongData('user', options.registerIds)
       },
       method: 'POST',
       endpoint: 'roles',
-      sessionToken: false,
+      sessionToken: false
     })
   }
 
@@ -26,11 +26,11 @@ export default class Create extends RoleCore {
     return this.ncmb.api({
       query: {
         roleName: options.roleName,
-        belongRole: this.createBelongData('role', options.registerIds),
+        belongRole: this.createBelongData('role', options.registerIds)
       },
       method: 'POST',
       endpoint: 'roles',
-      sessionToken: false,
+      sessionToken: false
     })
   }
 }

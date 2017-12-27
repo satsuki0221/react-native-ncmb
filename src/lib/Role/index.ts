@@ -12,7 +12,7 @@ export default class Role extends RoleCore {
     return this.ncmb.api({
       method: 'GET',
       endpoint: `roles/${objectId}`,
-      sessionToken: true,
+      sessionToken: true
     })
   }
 
@@ -20,7 +20,7 @@ export default class Role extends RoleCore {
     return this.ncmb.api({
       method: 'DELETE',
       endpoint: `roles/${objectId}`,
-      sessionToken: true,
+      sessionToken: true
     })
   }
 
@@ -29,11 +29,11 @@ export default class Role extends RoleCore {
       query: {},
       method: 'GET',
       endpoint: 'roles',
-      sessionToken: false,
+      sessionToken: false
     }
     if (where instanceof Object)
       header.query = {
-        where: JSON.stringify(where),
+        where: JSON.stringify(where)
       }
     return this.ncmb.api(header).then((res: any) => {
       return res.json()

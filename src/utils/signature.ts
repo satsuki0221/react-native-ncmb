@@ -3,7 +3,14 @@ import * as jsSHA from 'jssha'
 import { convert } from './index'
 
 export default (ncmb: ncmb, options: CreateSignature) => {
-  const { fqdn, version, signatureMethod, signatureVersion, getApplicationKey, getClientKey } = ncmb
+  const {
+    fqdn,
+    version,
+    signatureMethod,
+    signatureVersion,
+    getApplicationKey,
+    getClientKey
+  } = ncmb
 
   const sha256 = new jsSHA('SHA-256', 'TEXT')
 
@@ -11,7 +18,7 @@ export default (ncmb: ncmb, options: CreateSignature) => {
     SignatureMethod: signatureMethod,
     SignatureVersion: signatureVersion,
     'X-NCMB-Application-Key': getApplicationKey(),
-    'X-NCMB-Timestamp': options.nowTime,
+    'X-NCMB-Timestamp': options.nowTime
   }
 
   if (options.method === 'GET') {
@@ -26,7 +33,12 @@ export default (ncmb: ncmb, options: CreateSignature) => {
 
   sha256.setHMACKey(getClientKey(), 'TEXT')
   sha256.update(
-    [options.method, fqdn, `/${version}/${options.endpoint}`, convert(signatureObject)].join('\n'),
+    [
+      options.method,
+      fqdn,
+      `/${version}/${options.endpoint}`,
+      convert(signatureObject)
+    ].join('\n')
   )
   return sha256.getHMAC('B64')
 }

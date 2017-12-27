@@ -11,7 +11,7 @@ export default class Objects extends Core {
         query: options.query,
         method: 'POST',
         endpoint: `classes/${options.className}/`,
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()
@@ -24,7 +24,7 @@ export default class Objects extends Core {
         query: options.query,
         method: 'GET',
         endpoint: `classes/${options.className}/${options.objectId}`,
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()
@@ -37,7 +37,7 @@ export default class Objects extends Core {
         query: options.query,
         method: 'PUT',
         endpoint: `classes/${options.className}/${options.objectId}`,
-        sessionToken: false,
+        sessionToken: false
       })
       .then((res: any) => {
         return res.json()
@@ -48,7 +48,7 @@ export default class Objects extends Core {
     return this.ncmb.api({
       method: 'DELETE',
       endpoint: `classes/${options.className}/${options.objectId}`,
-      sessionToken: false,
+      sessionToken: false
     })
   }
 
@@ -57,11 +57,11 @@ export default class Objects extends Core {
       query: {},
       method: 'GET',
       endpoint: `classes/${options.className}`,
-      sessionToken: false,
+      sessionToken: false
     }
     if (options.query instanceof Object)
       header.query = {
-        where: JSON.stringify(options.query),
+        where: JSON.stringify(options.query)
       }
     return this.ncmb.api(header).then((res: any) => {
       return res.json()
