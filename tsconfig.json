@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    // "sourceMap": true,
+    "noImplicitAny": true,
+    "target": "ES2017",
+    "module": "ES2015",
+    "baseUrl": "src",
+    "paths": {
+      "types/*": ["types/*"],
+      "utils/*": ["utils/*"],
+      "lib/*": ["lib/*"],
+      "ncmb": ["ncmb"]
+    },
+    "lib": ["es2017", "dom"],
+    "jsx": "react-native",
+    "experimentalDecorators": true
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}

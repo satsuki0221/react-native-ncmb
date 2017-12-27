@@ -2,3 +2,4 @@ node_modules/
 flow-typed/
 .vscode/
 index.html
+dist/

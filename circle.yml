@@ -1,0 +1,13 @@
+machine:
+  timezone: Asia/Tokyo
+  node:
+    version: 8.6.0
+
+dependencies:
+  override:
+    - npm install
+    - npm run build
+
+test:
+  override:
+    - echo "skip test"
