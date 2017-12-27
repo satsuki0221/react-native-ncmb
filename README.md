@@ -172,7 +172,7 @@ NCMB.user.delete()
 
 ```
 NCMB.user.requestPasswordReset({
-	mailAddress: 'test@gmail.com'
+  mailAddress: 'test@gmail.com'
 }).then(response => {
   console.log(response)
 }).catch(error => {
@@ -191,7 +191,7 @@ NCMB.user.requestPasswordReset({
 
 ```
 NCMB.user.requestMailAddressUserEntry({
-	mailAddress: 'test@gmail.com'
+  mailAddress: 'test@gmail.com'
 }).then(response => {
   console.log(response)
 }).catch(error => {
