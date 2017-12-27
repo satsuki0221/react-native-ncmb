@@ -91,9 +91,9 @@ class RollCore extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */]
     createBelongData(className, registerIds) {
         return {
             __op: 'AddRelation',
-            objects: registerIds.map((id) => {
+            objects: registerIds.map(id => {
                 return Object.assign({ objectId: id }, { className, __type: 'Pointer' });
-            }),
+            })
         };
     }
 }
@@ -132,7 +132,7 @@ class RollCore extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */]
 
 
 class NCMB {
-    constructor() {
+    constructor(config) {
         this.applicationkey = null;
         this.clientKey = null;
         this.currentUser = null;
@@ -181,6 +181,15 @@ class NCMB {
                 throw new Error(res.statusText);
             });
         };
+        if (config instanceof Object) {
+            this.applicationkey = config.applicationkey;
+            this.clientKey = config.clientkey;
+            this.fqdn = config.fqdn;
+            this.scriptFqdn = config.scriptFqdn;
+            this.port = config.port;
+            this.protocol = config.protocol;
+            this.stub = config.stub;
+        }
     }
     set(keys) {
         this.applicationkey = keys.applicationkey;
@@ -253,32 +262,38 @@ f[d]>>>24));for(c=0;24>c;c+=1){k=B("SHA3-");for(d=0;5>d;d+=1)g[d]=A(b[d][0],b[d]
 
 class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
     create(options) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query: options.query,
             method: 'POST',
             endpoint: `classes/${options.className}/`,
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
         });
     }
     read(options) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query: options.query,
             method: 'GET',
             endpoint: `classes/${options.className}/${options.objectId}`,
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
         });
     }
     update(options) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query: options.query,
             method: 'PUT',
             endpoint: `classes/${options.className}/${options.objectId}`,
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
         });
     }
@@ -286,7 +301,7 @@ class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] 
         return this.ncmb.api({
             method: 'DELETE',
             endpoint: `classes/${options.className}/${options.objectId}`,
-            sessionToken: false,
+            sessionToken: false
         });
     }
     search(options) {
@@ -294,11 +309,11 @@ class Objects extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] 
             query: {},
             method: 'GET',
             endpoint: `classes/${options.className}`,
-            sessionToken: false,
+            sessionToken: false
         };
         if (options.query instanceof Object)
             header.query = {
-                where: JSON.stringify(options.query),
+                where: JSON.stringify(options.query)
             };
         return this.ncmb.api(header).then((res) => {
             return res.json();
@@ -322,29 +337,29 @@ class Create extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] 
             query,
             method: 'POST',
             endpoint: 'roles',
-            sessionToken: false,
+            sessionToken: false
         });
     }
     belongUser(options) {
         return this.ncmb.api({
             query: {
                 roleName: options.roleName,
-                belongUser: this.createBelongData('user', options.registerIds),
+                belongUser: this.createBelongData('user', options.registerIds)
             },
             method: 'POST',
             endpoint: 'roles',
-            sessionToken: false,
+            sessionToken: false
         });
     }
     belongRole(options) {
         return this.ncmb.api({
             query: {
                 roleName: options.roleName,
-                belongRole: this.createBelongData('role', options.registerIds),
+                belongRole: this.createBelongData('role', options.registerIds)
             },
             method: 'POST',
             endpoint: 'roles',
-            sessionToken: false,
+            sessionToken: false
         });
     }
 }
@@ -364,27 +379,27 @@ class Create extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] 
         return this.ncmb.api({
             method: 'PUT',
             endpoint: `roles/${objectId}`,
-            sessionToken: false,
+            sessionToken: false
         });
     }
     belongUser(options) {
         return this.ncmb.api({
             query: {
-                belongUser: this.createBelongData('user', options.registerIds),
+                belongUser: this.createBelongData('user', options.registerIds)
             },
             method: 'PUT',
             endpoint: `roles/${options.objectId}`,
-            sessionToken: false,
+            sessionToken: false
         });
     }
     belongRole(options) {
         return this.ncmb.api({
             query: {
-                belongRole: this.createBelongData('role', options.registerIds),
+                belongRole: this.createBelongData('role', options.registerIds)
             },
             method: 'PUT',
             endpoint: `roles/${options.objectId}`,
-            sessionToken: false,
+            sessionToken: false
         });
     }
 }
@@ -413,14 +428,14 @@ class Role extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
         return this.ncmb.api({
             method: 'GET',
             endpoint: `roles/${objectId}`,
-            sessionToken: true,
+            sessionToken: true
         });
     }
     delete(objectId) {
         return this.ncmb.api({
             method: 'DELETE',
             endpoint: `roles/${objectId}`,
-            sessionToken: true,
+            sessionToken: true
         });
     }
     search(where) {
@@ -428,11 +443,11 @@ class Role extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
             query: {},
             method: 'GET',
             endpoint: 'roles',
-            sessionToken: false,
+            sessionToken: false
         };
         if (where instanceof Object)
             header.query = {
-                where: JSON.stringify(where),
+                where: JSON.stringify(where)
             };
         return this.ncmb.api(header).then((res) => {
             return res.json();
@@ -452,86 +467,104 @@ class Role extends __WEBPACK_IMPORTED_MODULE_0__RoleCore__["a" /* default */] {
 
 class User extends __WEBPACK_IMPORTED_MODULE_0_lib_Core__["a" /* default */] {
     login(query) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query,
             method: 'GET',
             endpoint: 'login',
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
-        }).then((res) => {
+        })
+            .then((res) => {
             this.ncmb.setCurrentUser(res);
             return res;
         });
     }
     logout() {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             method: 'GET',
             endpoint: 'logout',
-            sessionToken: false,
-        }).then(() => {
+            sessionToken: false
+        })
+            .then(() => {
             this.ncmb.deleteCurrentUser();
         });
     }
     create(query) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query,
             method: 'POST',
             endpoint: 'users',
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then(res => {
             return res.json();
-        }).then((json) => {
+        })
+            .then(json => {
             this.ncmb.setCurrentUser(json);
             return json;
         });
     }
     update(query) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query,
             method: 'PUT',
             endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-            sessionToken: true,
-        }).then((res) => {
+            sessionToken: true
+        })
+            .then((res) => {
             return res.json();
         });
     }
     read() {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             method: 'GET',
             endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-            sessionToken: true,
-        }).then((res) => {
+            sessionToken: true
+        })
+            .then((res) => {
             return res.json();
         });
     }
     delete() {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             method: 'DELETE',
             endpoint: `users/${this.ncmb.getCurrentUser().objectId}`,
-            sessionToken: true,
-        }).then((res) => {
+            sessionToken: true
+        })
+            .then(res => {
             this.ncmb.deleteCurrentUser();
             return res;
         });
     }
     requestMailAddressUserEntry(query) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query,
             method: 'POST',
             endpoint: 'requestMailAddressUserEntry',
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
         });
     }
     requestPasswordReset(query) {
-        return this.ncmb.api({
+        return this.ncmb
+            .api({
             query,
             method: 'POST',
             endpoint: 'requestPasswordReset',
-            sessionToken: false,
-        }).then((res) => {
+            sessionToken: false
+        })
+            .then((res) => {
             return res.json();
         });
     }
@@ -559,13 +592,13 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(2);
 
 /* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
-    const { method, endpoint, sessionToken, query, } = options;
-    const nowTime = (new Date()).toISOString();
+    const { method, endpoint, sessionToken, query } = options;
+    const nowTime = new Date().toISOString();
     const signature = ncmb.createSignature({
         method,
         endpoint,
         nowTime,
-        query,
+        query
     });
     const createFetchUrl = () => {
         let fetchUrl = `${ncmb.url}/${endpoint}`;
@@ -579,7 +612,7 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
             'X-NCMB-Application-Key': ncmb.getApplicationKey(),
             'X-NCMB-Timestamp': nowTime,
             'X-NCMB-Signature': signature,
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         };
         if (sessionToken) {
             header['X-NCMB-Apps-Session-Token'] = ncmb.getCurrentUser().sessionToken;
@@ -599,7 +632,10 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ((queryObject) => (Object.keys(queryObject).sort().map(key => [key, queryObject[key]].join('=')).join('&')));
+/* harmony default export */ __webpack_exports__["a"] = ((queryObject) => Object.keys(queryObject)
+    .sort()
+    .map(key => [key, queryObject[key]].join('='))
+    .join('&'));
 
 
 /***/ }),
@@ -613,17 +649,17 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
 
 
 /* harmony default export */ __webpack_exports__["a"] = ((ncmb, options) => {
-    const { fqdn, version, signatureMethod, signatureVersion, getApplicationKey, getClientKey, } = ncmb;
+    const { fqdn, version, signatureMethod, signatureVersion, getApplicationKey, getClientKey } = ncmb;
     const sha256 = new __WEBPACK_IMPORTED_MODULE_0_jssha__('SHA-256', 'TEXT');
     const signatureObject = {
         SignatureMethod: signatureMethod,
         SignatureVersion: signatureVersion,
         'X-NCMB-Application-Key': getApplicationKey(),
-        'X-NCMB-Timestamp': options.nowTime,
+        'X-NCMB-Timestamp': options.nowTime
     };
     if (options.method === 'GET') {
         if (options.query instanceof Object) {
-            Object.keys(options.query).forEach((key) => {
+            Object.keys(options.query).forEach(key => {
                 let q = options.query[key];
                 if (typeof q === 'object')
                     q = JSON.stringify(q);
@@ -631,13 +667,12 @@ window.NCMB = new __WEBPACK_IMPORTED_MODULE_0_ncmb__["a" /* default */]();
             });
         }
     }
-    console.log(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject));
     sha256.setHMACKey(getClientKey(), 'TEXT');
     sha256.update([
         options.method,
         fqdn,
         `/${version}/${options.endpoint}`,
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject),
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__index__["c" /* convert */])(signatureObject)
     ].join('\n'));
     return sha256.getHMAC('B64');
 });
