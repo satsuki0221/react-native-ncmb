@@ -1,6 +1,6 @@
 {
   "name": "react-native-ncmb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "index.js",
   "description": "NCMB for React Native",
   "license": "MIT",
@@ -16,12 +16,21 @@
     "test": "jest"
   },
   "jest": {
-    "moduleDirectories": ["node_modules", "src"],
-    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
     "transform": {
       "^.+\\.ts$": "./node_modules/ts-jest/preprocessor.js"
     },
-    "testMatch": ["**/test/*.test.ts"]
+    "testMatch": [
+      "**/test/*.test.ts"
+    ]
   },
   "dependencies": {
     "@types/jssha": "^0.0.29",
